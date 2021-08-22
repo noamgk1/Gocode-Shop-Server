@@ -25,7 +25,7 @@ app.get("/products", (req, res) => {
   console.log("hi");
   fs.readFile("./products.json", "utf8", (err, data) => {
     if (err) {
-      res.send("hi");
+      res.send("Hi, ");
     } else {
       res.send(JSON.parse(data));
     }
