@@ -1,21 +1,23 @@
-//console.log(process);
-//console.log(process.argv);
-
-/*http.createServer((req,res)=>
-res.writeHead(200);
-res.end("Hi");
-
-app.get("/home", (req, res) => {
-  console.log("hello");
-  res.send("hi");
-});
-
-)*/
-// const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 const express = require("express");
+
 const app = express();
+
 const fs = require("fs");
+
+const mongoose = require("mongoose");
+
+const productSchema = new mongoose.Schema({
+  title: String,
+  price: Number,
+  description: String,
+  category: String,
+  image: String,
+});
+
+const Producttt = mongoose.model("Product", productSchema);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -71,29 +73,38 @@ app.get("/products/:id", (req, res) => {
 });
 
 //post a new product
-app.post("/products", (req, res) => {
-  const newP = req.body;
-  if (
-    newP.title &&
-    newP.description &&
-    newP.price &&
-    newP.category &&
-    newP.image
-  ) {
-    fs.readFile("./products.json", "utf8", (err, data) => {
-      const products = JSON.parse(data);
-      const newProduct = {
-        id: products.length + 1,
-        title: newP.title,
-        price: newP.price,
-        description: newP.description,
-        category: newP.category,
-        image: newP.image,
-      };
+// app.post("/products", (req, res) => {
+//   const { title, price, image, category, description } = req.body;
+//   if (title && price && image && category && description) {
+//     fs.readFile("./products.json", "utf8", (err, data) => {
+//       const products = JSON.parse(data);
+//       const newProduct = {
+//         id: uuidv4(),
+//         title: title,
+//         price: price,
+//         description: description,
+//         category: category,
+//         image: image,
+//       };
 
-      products.push(newProduct);
-      fs.writeFile("./products.json", JSON.stringify(products), (err) => {});
+//       products.push(newProduct);
+//       fs.writeFile("./products.json", JSON.stringify(products), (err) => {});
+//     });
+//     res.send("The product was added successfully! ");
+//   } else res.send("Missing product values");
+// });
+
+app.post("/products", (req, res) => {
+  const { title, price, image, category, description } = req.body;
+  if (title && price && image && category && description) {
+    const product1 = new Producttt({
+      title,
+      price,
+      image,
+      category,
+      description,
     });
+    product1.save();
     res.send("The product was added successfully! ");
   } else res.send("Missing product values");
 });
@@ -139,4 +150,10 @@ app.get("*", (req, res) => {
   res.send(404);
 });
 
-app.listen(8080);
+mongoose.connect(
+  "mongodb://localhost/gocode_shop",
+  { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+  () => {
+    app.listen(8080);
+  }
+);
