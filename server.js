@@ -6,6 +6,8 @@ const fs = require("fs");
 
 const mongoose = require("mongoose");
 
+const cors = require("cors");
+
 const productSchema = new mongoose.Schema({
   title: String,
   price: Number,
@@ -17,7 +19,7 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 app.use(express.json());
-
+app.use(cors());
 app.get("/", (req, res) => {
   console.log("hi");
   res.send("Hi Client");
@@ -78,8 +80,10 @@ app.post("/products", (req, res) => {
   const { title, price, image, category, description } = req.body;
   if (title && price && image && category && description) {
     const product = new Product({ title, price, image, category, description });
-    product.save();
-    res.send("The product was added successfully! ");
+    product.save((err, product) => {
+      res.send(product);
+    });
+    // res.send("The product was added successfully! ");
   } else res.send("Missing product values");
 });
 
@@ -95,8 +99,8 @@ app.put("/products/:id", (req, res) => {
   description ? (updateFields.description = description) : null;
   image ? (updateFields.image = image) : null;
 
-  Product.findByIdAndUpdate(id, updateFields, (err, product) => {
-    res.send("The product has been updated");
+  Product.findByIdAndUpdate(id, updateFields, { new: true }, (err, product) => {
+    res.send(product);
   });
 });
 
@@ -125,7 +129,7 @@ app.get("*", (req, res) => {
 });
 
 mongoose.connect(
-  "mongodb://localhost/gocode_shop",
+  "mongodb+srv://noamkar:karmon@cluster.rx81s.mongodb.net/gocode_shop?retryWrites=true&w=majority",
   { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
   () => {
     app.listen(8080);
