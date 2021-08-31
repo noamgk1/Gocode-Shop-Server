@@ -19,7 +19,8 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", productSchema);
-
+// Serve static files from the React app
+app.use(express.static('client/build'));
 app.use(express.json());
 app.use(cors());
 app.get("/", (req, res) => {
@@ -27,7 +28,7 @@ app.get("/", (req, res) => {
   res.send("Hi Client");
 });
 
-app.get("/products", (req, res) => {
+app.get("/api/products", (req, res) => {
   const { min, max, category, title } = req.query;
 
   Product.find(
@@ -70,7 +71,7 @@ app.get("/products", (req, res) => {
 });
 
 //get one product
-app.get("/products/:id", (req, res) => {
+app.get("/api/products/:id", (req, res) => {
   const { id } = req.params;
   Product.findById(id, (err, product) => {
     res.send(product);
@@ -78,7 +79,7 @@ app.get("/products/:id", (req, res) => {
 });
 
 //post a new product
-app.post("/products", (req, res) => {
+app.post("/api/products", (req, res) => {
   const { title, price, image, category, description } = req.body;
   if (title && price && image && category && description) {
     const product = new Product({ title, price, image, category, description });
@@ -90,7 +91,7 @@ app.post("/products", (req, res) => {
 });
 
 //update the product
-app.put("/products/:id", (req, res) => {
+app.put("/api/products/:id", (req, res) => {
   const { id } = req.params;
   const { title, price, image, category, description } = req.body;
 
@@ -106,12 +107,19 @@ app.put("/products/:id", (req, res) => {
   });
 });
 
-app.delete("/products/:id", (req, res) => {
+app.delete("/api/products/:id", (req, res) => {
   const { id } = req.params;
   Product.findByIdAndDelete(id, (err, product) => {
     res.send(product);
   });
 });
+
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname+'/client/build/index.html');
+});
+ 
+
 
 function initProduct() {
   Product.findOne((err, product) => {
