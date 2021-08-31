@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 
 const cors = require("cors");
 
+require("dotenv").config();
+
 const productSchema = new mongoose.Schema({
   title: String,
   price: Number,
@@ -128,8 +130,10 @@ app.get("*", (req, res) => {
   res.send(404);
 });
 
+const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
+
 mongoose.connect(
-  "mongodb+srv://noamkar:karmon@cluster.rx81s.mongodb.net/gocode_shop?retryWrites=true&w=majority",
+  `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
   () => {
     app.listen(8080);
