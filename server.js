@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model("Product", productSchema);
 // Serve static files from the React app
-app.use(express.static('client/build'));
+app.use(express.static("client/build"));
 app.use(express.json());
 app.use(cors());
 app.get("/", (req, res) => {
@@ -114,12 +114,15 @@ app.delete("/api/products/:id", (req, res) => {
   });
 });
 
-
-app.get('*', (req, res) => {
-  res.sendFile(__dirname+'/client/build/index.html');
+app.post("/api/wix", (req, res) => {
+  console.log(req.body);
+  console.log("wix");
+  console.log(req);
 });
- 
 
+app.get("*", (req, res) => {
+  res.sendFile(__dirname + "/client/build/index.html");
+});
 
 function initProduct() {
   Product.findOne((err, product) => {
