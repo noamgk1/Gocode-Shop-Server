@@ -118,6 +118,7 @@ app.post("/api/wix", (req, res) => {
   console.log(req.body);
   console.log("wix");
   console.log(req);
+  res.send("good");
 });
 
 app.get("*", (req, res) => {
