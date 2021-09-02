@@ -131,8 +131,11 @@ app.delete("/api/products/:id", (req, res) => {
 });
 
 app.post("/api/wix", (req, res) => {
-  const wixi = req.body;
-  wix.save((err, wixi));
+  const { a, b, c, d, e, f, g, h, i, j, k, l } = req.body;
+  const wixi = new wix({ a, b, c, d, e, f, g, h, i, j, k, l });
+  wixi.save((err, wixi) => {
+    res.send(wixi);
+  });
 });
 
 app.get("*", (req, res) => {
