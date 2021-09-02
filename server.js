@@ -18,6 +18,22 @@ const productSchema = new mongoose.Schema({
   image: String,
 });
 
+const wixSchema = new mongoose.Schema({
+  a: String,
+  b: String,
+  c: String,
+  d: String,
+  e: String,
+  f: String,
+  g: String,
+  h: String,
+  i: String,
+  j: String,
+  k: String,
+  l: String,
+});
+
+const wix = mongoose.model("wix", wixSchema);
 const Product = mongoose.model("Product", productSchema);
 // Serve static files from the React app
 app.use(express.static("client/build"));
@@ -115,10 +131,8 @@ app.delete("/api/products/:id", (req, res) => {
 });
 
 app.post("/api/wix", (req, res) => {
-  console.log(req.body);
-  console.log("wix");
-  console.log(req);
-  res.send("good");
+  const wixi = req.body;
+  wix.save((err, wixi));
 });
 
 app.get("*", (req, res) => {
@@ -151,3 +165,11 @@ mongoose.connect(
     app.listen(process.env.PORT || 8080);
   }
 );
+
+// mongoose.connect(
+//   "mongodb://localhost/gocode_shop",
+//   { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+//   () => {
+//     app.listen(8080);
+//   }
+// );
