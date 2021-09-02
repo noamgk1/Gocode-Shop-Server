@@ -19,11 +19,11 @@ const productSchema = new mongoose.Schema({
 });
 
 const wixSchema = new mongoose.Schema({
-  a: String,
-  b: String,
-  c: String,
-  d: String,
-  e: String,
+  a: Array,
+  b: [String, String],
+  c: [Array],
+  d: [String],
+  e: [String],
   f: String,
   g: String,
   h: String,
@@ -131,12 +131,8 @@ app.delete("/api/products/:id", (req, res) => {
 });
 
 app.post("/api/wix", (req, res) => {
-  const { a, b, c, d, e, f, g, h, i, j, k, l } = req.query;
-  console.log(req.query);
-  // console.log("hi");
-  // console.log(req.body);
-  // console.log("hii1");
-  // console.log(req);
+  const { a, b, c, d, e, f, g, h, i, j, k, l } = req.body;
+
   const wixi = new wix({ a, b, c, d, e, f, g, h, i, j, k, l });
   wixi.save((err, wixi) => {
     res.send(wixi);
