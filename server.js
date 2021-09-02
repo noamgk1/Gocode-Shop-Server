@@ -131,8 +131,8 @@ app.delete("/api/products/:id", (req, res) => {
 });
 
 app.post("/api/wix", (req, res) => {
-  const { a, b, c, d, e, f, g, h, i, j, k, l } = req.body;
-  const wixi = new wix({ a, b, c, d, e, f, g, h, i, j, k, l });
+  const a = req.body;
+  const wixi = new wix(a);
   wixi.save((err, wixi) => {
     res.send(wixi);
   });
