@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import AdminControl from "./views/AdminControl";
-
+import SignInSide from "./components/SignIn/SignInSide";
 function App() {
   return (
     <CartContextProvider>
@@ -20,21 +20,37 @@ function App() {
           <Toolbar>
             <Grid
               container
+              spacing={0}
               direction="row"
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography fontFamily="fontFamily" variant="h5" color="#5F9EA0">
-                <Link to="/">My Shop</Link>
-              </Typography>
-
-              <Typography variant="h4">
-                <Link to="/control">control</Link>
-              </Typography>
-
-              <Typography display="block">
+              <Grid item xs>
+                <Typography
+                  fontFamily="fontFamily"
+                  variant="h5"
+                  color="#5F9EA0"
+                >
+                  <Link to="/">My Shop</Link>
+                </Typography>
+              </Grid>
+              <Grid xs={1}>
+                <Typography variant="h4">
+                  <Link to="/control">control</Link>
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+              >
                 <SideCart />
-              </Typography>
+
+                <SignInSide />
+              </Grid>
             </Grid>
           </Toolbar>
         </AppBar>

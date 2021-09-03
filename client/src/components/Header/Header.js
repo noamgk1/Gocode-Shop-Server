@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
     },
   },
+
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -123,6 +124,7 @@ const Header = ({ categories, onChoose, value, handleChange, onSearch }) => {
 
               <div align="right">
                 <TextField
+                  className={classes.search}
                   id="outlined-select-currency"
                   select
                   label="Filter by:"
