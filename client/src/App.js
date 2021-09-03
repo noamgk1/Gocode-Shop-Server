@@ -12,6 +12,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import AdminControl from "./views/AdminControl";
 import SignInSide from "./components/SignIn/SignInSide";
+import SignUp from "./components/SignIn/SignUp";
 function App() {
   return (
     <CartContextProvider>
@@ -70,6 +71,10 @@ function App() {
               >
                 <ProductDetails />
               </Grid>
+            </Route>
+
+            <Route path="/signUp">
+              <SignUp />
             </Route>
             <Route path="/">
               <Home className="App-header" />
