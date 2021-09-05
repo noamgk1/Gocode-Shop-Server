@@ -60,7 +60,16 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
     },
   },
-
+  search1: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: "25ch",
+  },
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -124,7 +133,7 @@ const Header = ({ categories, onChoose, value, handleChange, onSearch }) => {
 
               <div align="right">
                 <TextField
-                  className={classes.search}
+                  className={classes.search1}
                   id="outlined-select-currency"
                   select
                   label="Filter by:"

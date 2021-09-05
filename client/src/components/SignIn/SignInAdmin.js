@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import EditIcon from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -16,8 +16,6 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
-import { useHistory } from "react-router";
-import { useEffect } from "react";
 
 function Copyright() {
   return (
@@ -72,37 +70,7 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const SignInSide = () => {
-  const history = useHistory();
-  const [values, setValues] = React.useState({
-    email: "",
-    password: "",
-  });
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.id });
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem("user-info")) {
-      history.push("/");
-    }
-  }, []);
-
-  async function login() {
-    let result = await fetch("/api/signIn", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    result = await result.json();
-    localStorage.setItem("user-info", JSON.stringify(result));
-    history.push("/");
-  }
-
+const SignInAdmin = () => {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -127,7 +95,7 @@ const SignInSide = () => {
             <PersonPinIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in Admin
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -140,7 +108,6 @@ const SignInSide = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={handleChange("email")}
             />
             <TextField
               variant="outlined"
@@ -152,7 +119,6 @@ const SignInSide = () => {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={handleChange("password")}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -164,22 +130,10 @@ const SignInSide = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={login}
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/signUp" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+
             <Box mt={5}>
               <Copyright />
             </Box>
@@ -196,7 +150,7 @@ const SignInSide = () => {
         onClick={toggleDrawer("right", true)}
       >
         <StyledBadge>
-          <AccountCircleIcon variant="outlined" />
+          <EditIcon variant="outlined" />
         </StyledBadge>
       </IconButton>
       <SwipeableDrawer
@@ -210,4 +164,4 @@ const SignInSide = () => {
     </React.Fragment>
   );
 };
-export default SignInSide;
+export default SignInAdmin;

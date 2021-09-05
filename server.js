@@ -8,7 +8,21 @@ const mongoose = require("mongoose");
 
 const cors = require("cors");
 
+const jwt = require("jsonwebtoken");
+
 require("dotenv").config();
+
+const userSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: String,
+  password: String,
+  admin: {
+    type: Boolean,
+    default: false,
+  },
+  date: { type: Date, default: Date.now },
+});
 
 const productSchema = new mongoose.Schema({
   title: String,
@@ -18,32 +32,18 @@ const productSchema = new mongoose.Schema({
   image: String,
 });
 
-const wixSchema = new mongoose.Schema({
-  a: Array,
-  b: [String, String],
-  c: [Array],
-  d: [String],
-  e: [String],
-  f: String,
-  g: String,
-  h: String,
-  i: String,
-  j: String,
-  k: String,
-  l: String,
-});
-
-const wix = mongoose.model("wix", wixSchema);
+const User = mongoose.model("User", userSchema);
 const Product = mongoose.model("Product", productSchema);
 // Serve static files from the React app
 app.use(express.static("client/build"));
 app.use(express.json());
 app.use(cors());
+
 app.get("/", (req, res) => {
   console.log("hi");
   res.send("Hi Client");
 });
-
+//get products by query
 app.get("/api/products", (req, res) => {
   const { min, max, category, title } = req.query;
 
@@ -85,7 +85,6 @@ app.get("/api/products", (req, res) => {
     }
   );
 });
-
 //get one product
 app.get("/api/products/:id", (req, res) => {
   const { id } = req.params;
@@ -93,7 +92,6 @@ app.get("/api/products/:id", (req, res) => {
     res.send(product);
   });
 });
-
 //post a new product
 app.post("/api/products", (req, res) => {
   const { title, price, image, category, description } = req.body;
@@ -105,7 +103,6 @@ app.post("/api/products", (req, res) => {
     // res.send("The product was added successfully! ");
   } else res.send("Missing product values");
 });
-
 //update the product
 app.put("/api/products/:id", (req, res) => {
   const { id } = req.params;
@@ -122,21 +119,52 @@ app.put("/api/products/:id", (req, res) => {
     res.send(product);
   });
 });
-
+//delete product by ip
 app.delete("/api/products/:id", (req, res) => {
   const { id } = req.params;
   Product.findByIdAndDelete(id, (err, product) => {
     res.send(product);
   });
 });
-
-app.post("/api/wix", (req, res) => {
-  const { a, b, c, d, e, f, g, h, i, j, k, l } = req.body;
-
-  const wixi = new wix({ a, b, c, d, e, f, g, h, i, j, k, l });
-  wixi.save((err, wixi) => {
-    res.send(wixi);
+//get one user
+app.get("/api/signIn", (req, res) => {
+  const { email, password } = req.query;
+  User.findOne({ email: email, password: password }, (err, user) => {
+    const accessToken = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET, {
+      expiresIn: "15d",
+    });
+    if (user) {
+      res
+        .status(200)
+        .cookie("access-token", accessToken, { httpOnly: true })
+        .json({
+          status: 200,
+          data: { accesToken: accessToken, user: user },
+          message: "Succesfully login",
+        });
+    } else {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Email or Password is wrong" });
+    }
   });
+});
+
+//post a new user
+app.post("/api/signUp", (req, res) => {
+  const { firstName, lastName, password, email } = req.body;
+  if (email && firstName && lastName && password) {
+    const user = new User({ firstName, lastName, password, email });
+    user.save((err, user) => {
+      res.status(200).json({
+        status: 200,
+        data: user,
+        message: "Succesfully create new user",
+      });
+    });
+  } else {
+    return res.status(400).json({ status: 400, message: e.message });
+  }
 });
 
 app.get("*", (req, res) => {
@@ -153,12 +181,7 @@ function initProduct() {
     }
   });
 }
-
 initProduct();
-
-app.get("*", (req, res) => {
-  res.send(404);
-});
 
 const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
 

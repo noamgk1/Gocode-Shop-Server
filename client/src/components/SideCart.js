@@ -152,7 +152,7 @@ const SideCart = () => {
           className={classes.margin}
           onClick={toggleDrawer("right", true)}
         >
-          <StyledBadge badgeContent={cartList.length} color="secondary">
+          <StyledBadge badgeContent={cartList.length} color="primary">
             <ShoppingCartIcon variant="outlined" />
           </StyledBadge>
         </IconButton>
