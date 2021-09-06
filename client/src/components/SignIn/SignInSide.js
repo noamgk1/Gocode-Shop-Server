@@ -16,8 +16,6 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
-import { useHistory } from "react-router";
-import { useEffect } from "react";
 
 function Copyright() {
   return (
@@ -73,7 +71,10 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const SignInSide = () => {
-  const history = useHistory();
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    left: false,
+  });
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -81,32 +82,6 @@ const SignInSide = () => {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.id });
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("user-info")) {
-      history.push("/");
-    }
-  }, []);
-
-  async function login() {
-    let result = await fetch("/api/signIn", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(values),
-    });
-    result = await result.json();
-    localStorage.setItem("user-info", JSON.stringify(result));
-    history.push("/");
-  }
-
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    left: false,
-  });
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -118,6 +93,18 @@ const SignInSide = () => {
 
     setState({ ...state, [anchor]: open });
   };
+
+  // async function login() {
+  //   let result = await fetch("/api/signIn", {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(values),
+  //   });
+  //   result = await result.json();
+  // }
 
   const sign = (anchor) => (
     <Grid container component="main" className={classes.root}>
@@ -164,7 +151,7 @@ const SignInSide = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={login}
+              // onClick={login}
             >
               Sign In
             </Button>

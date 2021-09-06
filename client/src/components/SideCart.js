@@ -4,7 +4,7 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-
+import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -24,6 +24,9 @@ import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 400,
+    flexDirection: "column",
+    alignItems: "center",
+    margin: theme.spacing(4, 4),
   },
   fullList: {
     width: "auto",
@@ -38,6 +41,25 @@ const useStyles = makeStyles((theme) => ({
   },
   margin: {
     margin: theme.spacing(1),
+  },
+  title: {
+    margin: theme.spacing(2, 4),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  sub: {
+    margin: theme.spacing(2, 1),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "left",
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));
 
@@ -78,17 +100,16 @@ const SideCart = () => {
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Typography variant="h6" className={classes.title}>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <br />
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography component="h1" variant="h4" className={classes.title}>
           My Cart
-        </Grid>
-      </Typography>
+        </Typography>
+      </Grid>
 
       <Divider />
 
@@ -100,8 +121,9 @@ const SideCart = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <br />
-            <h2>Cart Is Empty</h2>
+            <Typography component="h1" variant="h6" className={classes.title}>
+              Your Cart Is Empty
+            </Typography>
           </Grid>
         )}
         {cartList.map((p) => (
@@ -110,6 +132,7 @@ const SideCart = () => {
               <img src={p.image} width="50" height="50" alt=" " />
             </ListItemIcon>
             <ListItemText
+              className={classes.sub}
               primary={p.title.slice(0, 20)}
               secondary={p.price + " $"}
             />
@@ -141,6 +164,16 @@ const SideCart = () => {
           <ListItemText primary="Total payment:" />
           <ListItemSecondaryAction>{itemsPrice} $ </ListItemSecondaryAction>
         </ListItem>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          // onClick={login}
+        >
+          payment
+        </Button>
       </List>
     </div>
   );
