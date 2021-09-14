@@ -3,9 +3,9 @@ import SideCart from "../components/SideCart";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import SignInSide from "../components/SignIn/SignInSide";
-import SignInAdmin from "../components/SignIn/SignInAdmin";
-import { Router, NavLink } from "react-router-dom";
+import SignInSide from "../components/Users/SignInSide";
+import SignInAdmin from "../components/Users/SignInAdmin";
+import { NavLink } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 
 function NavBar() {

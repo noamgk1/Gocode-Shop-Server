@@ -58,16 +58,14 @@ export default function SignUp() {
   };
 
   const addUser = () => {
-    fetch("/api/signUp", {
+    fetch("/api/users/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+    }).then((res) => console.log(res));
   };
 
   return (
@@ -79,6 +77,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

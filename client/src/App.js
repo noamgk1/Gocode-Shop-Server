@@ -3,7 +3,7 @@ import React from "react";
 import Home from "./views/Home";
 import ProductDetails from "./views/ProductDetails";
 import AdminControl from "./views/AdminControl";
-import SignUp from "./components/SignIn/SignUp";
+import SignUp from "./components/Users/SignUp";
 import NavBar from "./views/NavBar";
 import { UserContext } from "./Context/UserContext";
 import { createTheme } from "@material-ui/core/styles";
@@ -42,6 +42,10 @@ function App() {
                 <Route exact path="/control" component={AdminControl} />
                 <Route exact path="/signUp" component={SignUp} />
                 <Route exact path="/" component={Home} />
+                <Route
+                  path="/*"
+                  component={() => <div align="center">404 Page Not Found</div>}
+                />
               </Switch>
             </Container>
           </BrowserRouter>

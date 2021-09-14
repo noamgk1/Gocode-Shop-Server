@@ -94,17 +94,17 @@ const SignInSide = () => {
     setState({ ...state, [anchor]: open });
   };
 
-  // async function login() {
-  //   let result = await fetch("/api/signIn", {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(values),
-  //   });
-  //   result = await result.json();
-  // }
+  async function login() {
+    let result = await fetch("/api/users/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+    result = await result.json();
+  }
 
   const sign = (anchor) => (
     <Grid container component="main" className={classes.root}>
@@ -151,7 +151,7 @@ const SignInSide = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              // onClick={login}
+              onClick={login}
             >
               Sign In
             </Button>
