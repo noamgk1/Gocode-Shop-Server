@@ -31,27 +31,25 @@ const theme = createTheme({
 
 function App() {
   return (
-    <UserContext>
-      <CartContextProvider>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <NavBar />
-            <Container fixed>
-              <Switch>
-                <Route exact path="/product/:id" component={ProductDetails} />
-                <Route exact path="/control" component={AdminControl} />
-                <Route exact path="/signUp" component={SignUp} />
-                <Route exact path="/" component={Home} />
-                <Route
-                  path="/*"
-                  component={() => <div align="center">404 Page Not Found</div>}
-                />
-              </Switch>
-            </Container>
-          </BrowserRouter>
-        </ThemeProvider>
-      </CartContextProvider>
-    </UserContext>
+    <CartContextProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <NavBar />
+          <Container fixed>
+            <Switch>
+              <Route exact path="/product/:id" component={ProductDetails} />
+              <Route exact path="/control" component={AdminControl} />
+              <Route exact path="/signUp" component={SignUp} />
+              <Route exact path="/" component={Home} />
+              <Route
+                path="/*"
+                component={() => <div align="center">404 Page Not Found</div>}
+              />
+            </Switch>
+          </Container>
+        </BrowserRouter>
+      </ThemeProvider>
+    </CartContextProvider>
   );
 }
 
