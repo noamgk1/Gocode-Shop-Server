@@ -26,6 +26,8 @@ const AirbnbSlider = withStyles({
   root: {
     color: "#3a8589",
     height: 3,
+    maxWidth: 200,
+    minWidth: 50,
     padding: "13px 0",
     align: "flex-start",
   },
@@ -79,7 +81,7 @@ const FilterByPrice = ({ value, handleChange }) => {
     <div className={classes.root}>
       <div className={classes.margin} />
       <Typography gutterBottom>
-        <box>Filter by Price:</box>
+        <h5>Filter by Price:</h5>
       </Typography>
       <AirbnbSlider
         ValueLabelComponent={ValueLabelComponent}

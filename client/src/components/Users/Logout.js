@@ -33,7 +33,7 @@ function Logout() {
       const user1 = await axios.post(url, user, options);
 
       if (user1.status === 200) {
-        sessionStorage.removeItem("user");
+        localStorage.removeItem("user");
 
         setUser({
           accessToken: null,

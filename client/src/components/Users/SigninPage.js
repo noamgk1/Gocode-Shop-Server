@@ -59,7 +59,7 @@ export default function SignIn() {
       const user = await axios.post(url, controles, options);
       console.log(user);
       if (user.status === 200) {
-        sessionStorage.setItem("user", JSON.stringify(user.data));
+        localStorage.setItem("user", JSON.stringify(user.data));
 
         setUser({
           accessToken: user.data.token,

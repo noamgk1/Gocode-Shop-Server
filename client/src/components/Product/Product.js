@@ -44,7 +44,7 @@ const Product = ({ id, image, title, price, category, key }) => {
   const qty = qtyId(id);
   return (
     <Fade top cascade>
-      <div>
+      <Grid item xs="auto">
         <div className="product-card">
           <Card className={classes.root}>
             <div className="product-image">
@@ -115,7 +115,7 @@ const Product = ({ id, image, title, price, category, key }) => {
             </div>
           </Card>
         </div>
-      </div>
+      </Grid>
     </Fade>
   );
 };

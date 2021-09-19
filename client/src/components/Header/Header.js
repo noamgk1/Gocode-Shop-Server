@@ -1,5 +1,4 @@
 import FilterByPrice from "../FilterByPrice";
-import "./Header.css";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
@@ -7,11 +6,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { alpha, makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { Paper } from "@material-ui/core";
 
 const theme = createTheme({
   text: {
@@ -31,7 +28,7 @@ const theme = createTheme({
 });
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& .MuiTextField-root": {
+    "& .MuiPaper-root": {
       margin: theme.spacing(1),
       width: "30ch",
       color: "#00acc1",
@@ -103,54 +100,54 @@ const Header = ({ categories, onChoose, value, handleChange, onSearch }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <AppBar position="static" color="primary">
-          <Toolbar>
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
+      <Paper color={classes.root.color}>
+        {" "}
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={1}
+        >
+          <Grid item xs="auto">
+            <div className={classes.search}>
+              <div align="left" className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                onChange={onSearch}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </div>
+          </Grid>
+
+          <Grid align=" center" dir="ltr" item xs="auto">
+            <FilterByPrice value={value} handleChange={handleChange} />
+          </Grid>
+
+          <Grid item xs="auto">
+            <TextField
+              className={classes.search1}
+              id="outlined-select-currency"
+              select
+              label="Filter by:"
+              variant="outlined"
+              onChange={onChoose}
             >
-              <div className={classes.search}>
-                <div align="left" className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  onChange={onSearch}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </div>
-
-              <div align=" center" dir="ltr">
-                <FilterByPrice value={value} handleChange={handleChange} />
-              </div>
-
-              <div align="right">
-                <TextField
-                  className={classes.search1}
-                  id="outlined-select-currency"
-                  select
-                  label="Filter by:"
-                  variant="outlined"
-                  onChange={onChoose}
-                >
-                  {categories.map((p) => (
-                    <MenuItem key={index++} value={p}>
-                      {p}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </Grid>
-          </Toolbar>
-        </AppBar>
-      </div>
+              {categories.map((p) => (
+                <MenuItem key={index++} value={p}>
+                  {p}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+        </Grid>
+      </Paper>
     </ThemeProvider>
   );
 };

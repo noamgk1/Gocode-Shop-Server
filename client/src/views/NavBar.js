@@ -22,16 +22,25 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LoginIcon from "@mui/icons-material/Login";
-
+import { useHistory } from "react-router-dom";
 function NavBar() {
   const [user] = useContext(UserContext);
-
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const loginPage = () => {
+    handleMenuClose();
+    return history.push("/login");
+  };
+
+  const controlPage = () => {
+    handleMenuClose();
+    return history.push("/control");
+  };
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -51,8 +60,8 @@ function NavBar() {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Paper sx={{ width: 400 }}>
-      <MenuList>
+    <Paper sx={{ width: 200 }}>
+      <MenuList dense>
         <Menu
           anchorEl={anchorEl}
           anchorOrigin={{
@@ -68,18 +77,19 @@ function NavBar() {
           open={isMenuOpen}
           onClose={handleMenuClose}
         >
-          <MenuItem to="/control" onClick={handleMenuClose}>
+          <MenuItem onClick={controlPage}>
             <ListItemIcon>
               <SettingsIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText>Control</ListItemText>
+            <ListItemText inset>Control</ListItemText>
           </MenuItem>
           <Divider />
-          <MenuItem to="/login" onClick={handleMenuClose}>
+
+          <MenuItem onClick={loginPage}>
             <ListItemIcon>
               <LoginIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText>Login</ListItemText>
+            <ListItemText inset>Login</ListItemText>
           </MenuItem>
         </Menu>
       </MenuList>
@@ -89,7 +99,7 @@ function NavBar() {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Paper sx={{ width: 320 }}>
-      <MenuList>
+      <MenuList dense>
         <Menu
           anchorEl={mobileMoreAnchorEl}
           anchorOrigin={{
@@ -104,8 +114,6 @@ function NavBar() {
           }}
           open={isMobileMenuOpen}
           onClose={handleMobileMenuClose}
-          alignItems="flex-start"
-          direction="column"
         >
           <MenuItem>
             <SideCart />
@@ -146,22 +154,14 @@ function NavBar() {
             <MenuIcon />
           </IconButton> */}
 
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
+          <Typography variant="h6" noWrap component="div">
             <NavLink to="/">My Shop</NavLink>
           </Typography>
-
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <SideCart />
-
             {!user && <SignInSide />}
             {user && <Logout />}
-
             <IconButton
               size="large"
               edge="end"
@@ -189,6 +189,10 @@ function NavBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      <br />
+      <br />
+      <br />
+      <br />
     </Box>
   );
 }

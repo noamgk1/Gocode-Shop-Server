@@ -10,7 +10,7 @@ function UserContextProvider(props) {
   });
 
   const getUser = () => {
-    const userString = sessionStorage.getItem("user");
+    const userString = localStorage.getItem("user");
     const user = JSON.parse(userString);
     console.log("1", user);
     return user ? user : null;

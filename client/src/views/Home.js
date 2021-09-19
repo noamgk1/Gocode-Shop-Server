@@ -104,9 +104,7 @@ function Home() {
         <br />
         {preLoading && <Loading />}
         <br />
-        <Grid container spacing={2} alignItems="center">
-          <Products products={products} />
-        </Grid>
+        <Products products={products} />
       </div>
     </Grid>
   );
