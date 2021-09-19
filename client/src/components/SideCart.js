@@ -188,6 +188,8 @@ const SideCart = () => {
           <StyledBadge badgeContent={cartList.length} color="primary">
             <ShoppingCartIcon variant="outlined" />
           </StyledBadge>
+
+          <h6>My Cart</h6>
         </IconButton>
 
         <SwipeableDrawer

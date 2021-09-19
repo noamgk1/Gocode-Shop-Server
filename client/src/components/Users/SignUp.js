@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function Copyright() {
   return (
@@ -57,6 +58,37 @@ export default function SignUp() {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = () => () => {
+    setState({ open: true, vertical: "top", horizontal: "center" });
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  const message = (
+    <>
+      <Button onClick={handleClick({ vertical: "top", horizontal: "center" })}>
+        Top-Center
+      </Button>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message="I love snacks"
+        key={vertical + horizontal}
+      />
+    </>
+  );
+
   const addUser = () => {
     fetch("/api/users/signup", {
       method: "POST",
@@ -65,7 +97,14 @@ export default function SignUp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    }).then((res) => console.log(res));
+    }).then(function (response) {
+      if (response.status !== 200) {
+        console.log(
+          "Looks like there was a problem. Status Code: " + response.status
+        );
+        handleClick({ vertical: "top", horizontal: "center" });
+      }
+    });
   };
 
   return (
@@ -77,7 +116,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-
+        {message}
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

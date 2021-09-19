@@ -1,4 +1,5 @@
 import React from "react";
+import { useContext, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -16,6 +17,9 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
+import { useHistory } from "react-router-dom";
+import { UserContext } from "../../Context/UserContext";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -72,6 +76,8 @@ const StyledBadge = withStyles((theme) => ({
 
 const SignInSide = () => {
   const classes = useStyles();
+  const [user, setUser] = useContext(UserContext);
+  const history = useHistory();
   const [state, setState] = React.useState({
     left: false,
   });
@@ -79,8 +85,8 @@ const SignInSide = () => {
     email: "",
     password: "",
   });
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.id });
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.id]: e.target.value });
   };
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -94,16 +100,33 @@ const SignInSide = () => {
     setState({ ...state, [anchor]: open });
   };
 
-  async function login() {
-    let result = await fetch("/api/users/login", {
-      method: "POST",
+  async function login(e) {
+    e.preventDefault();
+    const url = "/api/users/login";
+    const options = {
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
-    });
-    result = await result.json();
+    };
+    const user = await axios.post(url, values, options);
+    console.log(user);
+    if (user.status === 200) {
+      sessionStorage.setItem("user", JSON.stringify(user.data));
+
+      setUser({
+        accessToken: user.data.token,
+        user: user.data.user,
+        admin: user.data.admin,
+      });
+      setState({
+        left: false,
+      });
+      if (user.data.admin) {
+        history.push("/control");
+      } else {
+        history.push("/");
+      }
+    }
   }
 
   const sign = (anchor) => (
@@ -127,7 +150,7 @@ const SignInSide = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={handleChange("email")}
+              onChange={(e) => handleChange(e)}
             />
             <TextField
               variant="outlined"
@@ -139,7 +162,7 @@ const SignInSide = () => {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={handleChange("password")}
+              onChange={(e) => handleChange(e)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -151,7 +174,7 @@ const SignInSide = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={login}
+              onClick={(e) => login(e)}
             >
               Sign In
             </Button>
@@ -185,6 +208,7 @@ const SignInSide = () => {
         <StyledBadge>
           <AccountCircleIcon variant="outlined" />
         </StyledBadge>
+        <h6> Login</h6>
       </IconButton>
       <SwipeableDrawer
         anchor={"right"}

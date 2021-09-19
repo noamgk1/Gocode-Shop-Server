@@ -1,7 +1,8 @@
 import React from "react";
+import { useContext, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -16,6 +17,9 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
+import { useHistory } from "react-router-dom";
+import { UserContext } from "../../Context/UserContext";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -70,11 +74,20 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const SignInAdmin = () => {
+const SignInSide = () => {
   const classes = useStyles();
+  const [user, setUser] = useContext(UserContext);
+  const history = useHistory();
   const [state, setState] = React.useState({
     left: false,
   });
+  const [values, setValues] = React.useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.id]: e.target.value });
+  };
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -87,6 +100,35 @@ const SignInAdmin = () => {
     setState({ ...state, [anchor]: open });
   };
 
+  async function login(e) {
+    e.preventDefault();
+    const url = "/api/users/login";
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const user = await axios.post(url, values, options);
+    console.log(user);
+    if (user.status === 200) {
+      sessionStorage.setItem("user", JSON.stringify(user.data));
+
+      setUser({
+        accessToken: user.data.token,
+        user: user.data.user,
+        admin: user.data.admin,
+      });
+      setState({
+        left: false,
+      });
+      if (user.data.admin) {
+        history.push("/control");
+      } else {
+        history.push("/");
+      }
+    }
+  }
+
   const sign = (anchor) => (
     <Grid container component="main" className={classes.root}>
       <Grid component={Paper} elevation={6} square>
@@ -95,45 +137,31 @@ const SignInAdmin = () => {
             <PersonPinIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in Admin
+            Sign in
           </Typography>
           <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={(e) => login(e)}
             >
               Sign In
             </Button>
-
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/signUp" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
             <Box mt={5}>
               <Copyright />
             </Box>
@@ -150,7 +178,7 @@ const SignInAdmin = () => {
         onClick={toggleDrawer("right", true)}
       >
         <StyledBadge>
-          <EditIcon variant="outlined" />
+          <AccountCircleIcon variant="outlined" />
         </StyledBadge>
       </IconButton>
       <SwipeableDrawer
@@ -164,4 +192,4 @@ const SignInAdmin = () => {
     </React.Fragment>
   );
 };
-export default SignInAdmin;
+export default SignInSide;

@@ -1,24 +1,32 @@
 import { createContext, useState, useEffect } from "react";
 
-export const UserCtx = createContext();
+export const UserContext = createContext();
 
-function getUser() {
-  const userString = sessionStorage.getItem("user");
-  const user = JSON.parse(userString);
-  return user ? user.data.user : null;
-}
+function UserContextProvider(props) {
+  const [user, setUser] = useState({
+    accessToken: null,
+    user: null,
+    admin: null,
+  });
 
-export function UserContext({ children }) {
-  const [user, setUser] = useState({ accessToken: null, user: null });
+  const getUser = () => {
+    const userString = sessionStorage.getItem("user");
+    const user = JSON.parse(userString);
+    console.log("1", user);
+    return user ? user : null;
+  };
 
   useEffect(() => {
-    console.log(user);
     if (user) {
       setUser(getUser());
     }
   }, []);
 
   return (
-    <UserCtx.Provider value={[user, setUser]}>{children}</UserCtx.Provider>
+    <UserContext.Provider value={[user, setUser]}>
+      {props.children}
+    </UserContext.Provider>
   );
 }
+
+export default UserContextProvider;

@@ -26,7 +26,7 @@ require("dotenv").config();
 //     }
 //   });
 // });
-
+refreshTokens = [];
 module.exports = {
   signup: (req, res) => {
     const { firstName, lastName, password, email } = req.body;
@@ -105,6 +105,8 @@ module.exports = {
           return res.status(200).json({
             message: "Auth successful",
             token,
+            user: user.firstName,
+            admin: user.admin,
           });
         }
 

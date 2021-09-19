@@ -6,7 +6,6 @@ const Products = ({ products }) => {
     <section className="products">
       {products.map((products) => (
         <Product
-          p={products}
           key={products._id}
           id={products._id}
           title={products.title}

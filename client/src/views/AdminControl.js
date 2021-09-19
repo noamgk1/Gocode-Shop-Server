@@ -17,6 +17,9 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { useState, useEffect } from "react";
+import { UserContext } from "../Context/UserContext";
+import { useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -42,12 +45,20 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 const AdminControl = () => {
+  const history = useHistory();
+  const [user] = useContext(UserContext);
+
   useEffect(() => {
-    fetch("/api/products")
-      .then((res) => res.json())
-      .then((json) => {
-        setData(json);
-      });
+    if (user && user.admin) {
+      console.log(user.admin);
+      fetch("/api/products")
+        .then((res) => res.json())
+        .then((json) => {
+          setData(json);
+        });
+    } else {
+      history.push("/");
+    }
   }, []);
 
   const columns = [
