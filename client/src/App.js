@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Home from "./views/Home";
 import ProductDetails from "./views/ProductDetails";
-import AdminControl from "./views/AdminControl";
+import AdminControl from "./Admin/AdminControl";
 import SignUp from "./components/Users/SignUp";
 import SigninPage from "./components/Users/SigninPage";
 import NavBar from "./views/NavBar";
@@ -10,8 +10,11 @@ import UserContextProvider from "./Context/UserContext";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import CartContextProvider from "./Context/CartContext";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Container from "@material-ui/core/Container";
+import EditProducts from "./Admin/EditProducts";
+import EditCategories from "./Admin/EditCategories";
 
 const theme = createTheme({
   text: {
@@ -33,8 +36,8 @@ const theme = createTheme({
 
 function App() {
   return (
-    <CartContextProvider>
-      <UserContextProvider>
+    <UserContextProvider>
+      <CartContextProvider>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
             <NavBar />
@@ -42,6 +45,16 @@ function App() {
               <Switch>
                 <Route exact path="/product/:id" component={ProductDetails} />
                 <Route exact path="/control" component={AdminControl} />
+                <Route
+                  exact
+                  path="/control/edit-products"
+                  component={EditProducts}
+                />
+                <Route
+                  exact
+                  path="/control/edit-categories"
+                  component={EditCategories}
+                />
                 <Route exact path="/login" component={SigninPage} />
                 <Route exact path="/signUp" component={SignUp} />
                 <Route exact path="/" component={Home} />
@@ -57,8 +70,8 @@ function App() {
             </Container>
           </BrowserRouter>
         </ThemeProvider>
-      </UserContextProvider>
-    </CartContextProvider>
+      </CartContextProvider>
+    </UserContextProvider>
   );
 }
 

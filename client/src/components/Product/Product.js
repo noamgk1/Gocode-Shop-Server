@@ -1,5 +1,5 @@
 import "./Product.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Card from "@material-ui/core/Card";
@@ -31,7 +31,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Product = ({ id, image, title, price, category, key }) => {
   const classes = useStyles();
-
+  const [categoryId, setCategoryId] = useState();
+  useEffect(() => {
+    fetch(`/api/categories/${category}`)
+      .then((res) => res.json())
+      .then((json) => setCategoryId(json.category.name));
+  }, []);
   const titleLength =
     title.length > 30
       ? title.slice(0, 30)
@@ -39,7 +44,14 @@ const Product = ({ id, image, title, price, category, key }) => {
       ? title + "-My Shop"
       : title;
 
-  const cart = { id: id, title: title, price: price, image: image, key: key };
+  const cart = {
+    id: id,
+    title: title,
+    price: price,
+    image: image,
+    category: category,
+    key: key,
+  };
   const { onAdd, onRemove, qtyId } = useContext(CartContext);
   const qty = qtyId(id);
   return (
@@ -66,7 +78,7 @@ const Product = ({ id, image, title, price, category, key }) => {
                   </h1>
 
                   <br />
-                  <h4>{category}</h4>
+                  <h4>{categoryId}</h4>
                 </Typography>
               </CardContent>
 

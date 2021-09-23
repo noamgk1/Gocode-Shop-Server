@@ -5,8 +5,11 @@ const productSchema = new mongoose.Schema({
   title: { type: String, required: true },
   price: { type: Number, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true },
-  //categoryId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Category' },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Category",
+  },
   image: String,
 });
 

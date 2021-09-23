@@ -2,7 +2,6 @@ import SideCart from "../components/SideCart";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import SignInSide from "../components/Users/SignInSide";
-import Connected from "../components/Users/Connected";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../Context/UserContext";
 import { useContext } from "react";
@@ -23,11 +22,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LoginIcon from "@mui/icons-material/Login";
 import { useHistory } from "react-router-dom";
+
 function NavBar() {
-  const [user] = useContext(UserContext);
-  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const [user] = useContext(UserContext);
+  const history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -119,8 +120,8 @@ function NavBar() {
             <SideCart />
           </MenuItem>
           <MenuItem>
-            {!user && <SignInSide />}
-            {user && <Logout />}
+            {!user.user && <SignInSide />}
+            {user.user && <Logout />}
           </MenuItem>
           <Divider />
           <MenuItem onClick={handleProfileMenuOpen}>
@@ -160,8 +161,8 @@ function NavBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <SideCart />
-            {!user && <SignInSide />}
-            {user && <Logout />}
+            {!user.user && <SignInSide />}
+            {user.user && <Logout />}
             <IconButton
               size="large"
               edge="end"

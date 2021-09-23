@@ -20,55 +20,116 @@ const useStyles = makeStyles((theme) => ({
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [firstProducts, setFirstProducts] = useState([]);
   const [preLoading, setPreLoading] = useState(false);
   const [productsFilterPrice, setProductsFilterPrice] = useState([]);
+
+  const [minmax, setMinMax] = useState([]);
+  const [categoryNow, setCategoryNow] = useState([]);
+  const [categories, setCategories] = useState(["All Products"]);
   const classes = useStyles();
-  const onChoose = (c) => {
-    console.log(c.target.value);
-    if (c.target.value === "All Products") {
-      setProducts(firstProducts);
-      setProductsFilterPrice(firstProducts);
-    } else {
-      setProducts(
-        firstProducts.filter((choose) => choose.category === c.target.value)
-      );
-      setProductsFilterPrice(
-        firstProducts.filter((choose) => choose.category === c.target.value)
-      );
-    }
-  };
 
-  const onHandleChange = (event, newValue) => {
-    console.log(newValue);
-    setProducts(
-      productsFilterPrice.filter(
-        (choose) => choose.price >= newValue[0] && choose.price <= newValue[1]
-      )
-    );
-  };
-
+  //get the products from API
   useEffect(() => {
     setPreLoading(true);
     fetch("/api/products")
       .then((res) => res.json())
       .then((json) => {
         setProducts(json);
-        setFirstProducts(json);
         setProductsFilterPrice(json);
         setPreLoading(false);
       });
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((json) => {
+        setCategories(json);
+      });
   }, []);
+
+  //set min and max from all products
   const values = productsFilterPrice
     .map((p) => p.price)
     .filter((value) => value > 0);
 
-  const categories = [
-    "All Products",
-    ...firstProducts
-      .map((p) => p.category)
-      .filter((value, index, array) => array.indexOf(value) === index),
-  ];
+  //choose from query
+  const onChoose = (e) => {
+    const search = e.target.value;
+    setCategoryNow(search);
+    setPreLoading(true);
+    if (search == "All Products") {
+      fetch("/api/products")
+        .then((res) => res.json())
+        .then((json) => {
+          setProducts(json);
+
+          setPreLoading(false);
+        });
+    } else {
+      const id = categories.filter((p) => p.name === search);
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          fetch(`/api/products/?category=${id[0]["_id"]}`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then((product) => {
+              setProducts(product);
+              setPreLoading(false);
+            });
+          resolve();
+        }, 1000);
+      });
+    }
+    console.log(categoryNow);
+  };
+
+  // const onChoose = (c) => {
+  //   console.log(c.target.value);
+  //   if (c.target.value === "All Products") {
+  //     setProducts(firstProducts);
+  //     setProductsFilterPrice(firstProducts);
+  //   } else {
+  //     setProducts(
+  //       firstProducts.filter((choose) => choose.category === c.target.value)
+  //     );
+  //     setProductsFilterPrice(
+  //       firstProducts.filter((choose) => choose.category === c.target.value)
+  //     );
+  //   }
+  // };
+
+  // const onHandleChange = (event, newValue) => {
+  //   setPreLoading(true);
+  //   console.log("gg", event.target);
+  //   console.log("gg", newValue);
+  //   new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       fetch(`/api/products/?min=${newValue[0]}`, {
+  //         method: "GET",
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //         },
+  //       })
+  //         .then((res) => res.json())
+  //         .then((product) => {
+  //           setProducts(product);
+  //           setPreLoading(false);
+  //         });
+  //       resolve();
+  //     }, 1000);
+  //   });
+  // };
+  const onHandleChange = (event, newValue) => {
+    setProducts(
+      productsFilterPrice.filter(
+        (choose) => choose.price >= newValue[0] && choose.price <= newValue[1]
+      )
+    );
+  };
 
   const onSearch = (e) => {
     const search = e.target.value;
@@ -94,6 +155,7 @@ function Home() {
     <Grid alignItems="center">
       <div className={classes.root}>
         <Header
+          setMinMax={[setMinMax]}
           onChoose={onChoose}
           categories={categories}
           value={values}

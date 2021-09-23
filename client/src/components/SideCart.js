@@ -23,7 +23,7 @@ import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    width: 400,
+    width: 270,
     flexDirection: "column",
     alignItems: "center",
     margin: theme.spacing(4, 4),
@@ -75,7 +75,9 @@ const StyledBadge = withStyles((theme) => ({
 const SideCart = () => {
   const { cartList } = useContext(CartContext);
   const classes = useStyles();
-  const itemsPrice = cartList.reduce((a, c) => a + c.qty * c.price, 0);
+  const itemsPrice = cartList
+    ? cartList.reduce((a, c) => a + c.qty * c.price, 0)
+    : null;
   const [state, setState] = React.useState({
     left: false,
   });
@@ -185,7 +187,10 @@ const SideCart = () => {
           className={classes.margin}
           onClick={toggleDrawer("right", true)}
         >
-          <StyledBadge badgeContent={cartList.length} color="primary">
+          <StyledBadge
+            badgeContent={cartList ? cartList.length : null}
+            color="primary"
+          >
             <ShoppingCartIcon variant="outlined" />
           </StyledBadge>
 

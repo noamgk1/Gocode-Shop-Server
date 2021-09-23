@@ -94,9 +94,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = ({ categories, onChoose, value, handleChange, onSearch }) => {
+const Header = ({
+  categories,
+  onChoose,
+  value,
+  handleChange,
+  onSearch,
+  setMinMax,
+}) => {
   let index = 1;
   const classes = useStyles();
+
+  const category = ["All Products"];
+  categories.map((p) => p.name).forEach((a) => category.push(a));
 
   return (
     <ThemeProvider theme={theme}>
@@ -139,7 +149,7 @@ const Header = ({ categories, onChoose, value, handleChange, onSearch }) => {
               variant="outlined"
               onChange={onChoose}
             >
-              {categories.map((p) => (
+              {category.map((p) => (
                 <MenuItem key={index++} value={p}>
                   {p}
                 </MenuItem>

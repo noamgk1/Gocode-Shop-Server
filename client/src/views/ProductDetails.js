@@ -51,7 +51,7 @@ export default function ProductDetails() {
   }, [id]);
   const qty = qtyId(id);
   const classes = useStyles();
-
+  console.log(Product);
   return (
     <div className={classes.root}>
       {preLoading && <Loading />}

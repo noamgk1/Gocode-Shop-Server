@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -39,11 +38,11 @@ const SettingControls = {
 export default function SignIn() {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
-  const history = useHistory();
-  const [controles, setControles] = useState(SettingControls);
+
+  const [control, setControl] = useState(SettingControls);
 
   function inputChangedHandler(e) {
-    setControles({ ...controles, [e.target.id]: e.target.value });
+    setControl({ ...control, [e.target.id]: e.target.value });
   }
 
   async function submitHandler(e) {
@@ -56,22 +55,18 @@ export default function SignIn() {
       },
     };
     try {
-      const user = await axios.post(url, controles, options);
-      console.log(user);
-      if (user.status === 200) {
-        localStorage.setItem("user", JSON.stringify(user.data));
+      const user1 = await axios.post(url, control, options);
 
-        setUser({
-          accessToken: user.data.token,
-          user: user.data.user,
-          admin: user.data.admin,
-        });
-
-        if (user.data.admin) {
-          history.push("/control");
-        } else {
-          history.push("/");
-        }
+      if (user1.status === 200) {
+        setUser([
+          { cart: null },
+          {
+            accessToken: user1.data.token,
+            user: user1.data.user,
+            admin: user1.data.admin,
+          },
+        ]);
+        localStorage.setItem("user", JSON.stringify(user));
       }
     } catch (err) {
       // throw Error(err);

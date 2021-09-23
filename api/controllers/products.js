@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product");
+const Category = require("../models/category");
 
 module.exports = {
   getByQuery: (req, res) => {
@@ -24,9 +25,7 @@ module.exports = {
         }
 
         if (category) {
-          products = products.filter((p) =>
-            p.category.toLowerCase().includes(category.toLowerCase())
-          );
+          products = products.filter((p) => p.category == category);
         }
 
         if (title) {
@@ -35,7 +34,8 @@ module.exports = {
           );
         }
 
-        if (products.length > 0) {
+        if (products) {
+          console.log(products);
           res.send(products);
         } else {
           res.send("There are no matching products!");
@@ -59,25 +59,33 @@ module.exports = {
   postProduct: (req, res) => {
     const { title, price, image, category, description } = req.body;
     if (title && price && image && category && description) {
-      const product = new Product({
-        _id: new mongoose.Types.ObjectId(),
-        title,
-        price,
-        image,
-        category,
-        description,
-      });
-      product
-        .save((err, product) => {
+      console.log(req.body);
+      Category.findById(category)
+        .then((category1) => {
+          if (!category1) {
+            return res.status(404).json({
+              message: "Category not found",
+            });
+          }
+
+          const product = new Product({
+            _id: new mongoose.Types.ObjectId(),
+            title,
+            price,
+            image,
+            category,
+            description,
+          });
+          product.save();
           res.send(product);
         })
+
         .catch((error) => {
           res.status(500).json({
             error,
           });
         });
-      // res.send("The product was added successfully! ");
-    } else res.send("Missing product values");
+    }
   },
 
   updateProduct: (req, res) => {

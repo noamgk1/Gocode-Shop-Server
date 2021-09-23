@@ -20,6 +20,7 @@ mongoose.connection.on("connected", () => {
 
 const productsRoutes = require("./api/routes/products");
 const usersRoutes = require("./api/routes/users");
+const categoriesRoutes = require("./api/routes/categories");
 
 app.use(morgan("dev")); //consolelog to server
 //app.use('/uploads', express.static('uploads'));
@@ -48,6 +49,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/categories", categoriesRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");

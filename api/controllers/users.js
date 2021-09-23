@@ -98,14 +98,13 @@ module.exports = {
             },
             process.env.JWT_KEY,
             {
-              expiresIn: "1H",
+              expiresIn: "60m",
             }
           );
 
           return res.status(200).json({
-            message: "Auth successful",
             token,
-            user: user.firstName,
+            user: user.firstName + " " + user.lastName,
             admin: user.admin,
           });
         }
@@ -115,6 +114,17 @@ module.exports = {
         });
       });
     });
+  },
+
+  guest: (req, res) => {
+    const cart = [null];
+    const obj = {
+      message: "Guest successful",
+      token: null,
+      user: null,
+      admin: null,
+    };
+    return res.status(200).json({ cart: cart, user: obj });
   },
 
   logout: (req, res) => {

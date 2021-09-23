@@ -17,8 +17,6 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { useState, useEffect } from "react";
-import { UserContext } from "../Context/UserContext";
-import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 const tableIcons = {
@@ -44,14 +42,14 @@ const tableIcons = {
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
-const AdminControl = () => {
+const EditCategories = () => {
   const history = useHistory();
-  const [user] = useContext(UserContext);
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
 
   useEffect(() => {
     if (user && user.admin) {
-      console.log(user.admin);
-      fetch("/api/products")
+      fetch("/api/categories")
         .then((res) => res.json())
         .then((json) => {
           setData(json);
@@ -74,48 +72,14 @@ const AdminControl = () => {
       ),
 
       sorting: false,
-      validate: (rowData) =>
-        rowData.image === undefined || "" ? "Image cannot be empty" : true,
     },
 
     {
       title: "Name",
-      field: "title",
-      validate: (rowData) => (!rowData.title ? "Title cannot be empty" : true),
-      render: (rowData) =>
-        rowData.title.length > 30
-          ? rowData.title.substring(0, 20) + " ..."
-          : rowData.title,
-    },
-    {
-      title: "Price",
-      field: "price",
-      type: "numeric",
-      validate: (rowData) =>
-        rowData.price === undefined || "" ? "Price cannot be empty" : true,
-    },
-    {
-      title: "Category",
-      field: "category",
-      validate: (rowData) =>
-        rowData.category === undefined || ""
-          ? "Category cannot be empty"
-          : true,
+      field: "name",
+      validate: (rowData) => (!rowData.name ? "Title cannot be empty" : true),
     },
 
-    {
-      title: "Description",
-      field: "description",
-      validate: (rowData) =>
-        rowData.description === undefined || ""
-          ? "Description cannot be empty"
-          : true,
-      sorting: false,
-      render: (rowData) =>
-        rowData.description.length > 30
-          ? rowData.description.substring(0, 20) + "  More ..."
-          : rowData.description,
-    },
     { title: "ID", field: "_id", editable: "never", sorting: false },
   ];
 
@@ -142,17 +106,18 @@ const AdminControl = () => {
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              fetch("/api/products", {
+              fetch("/api/categories", {
                 method: "POST",
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
+                  Authorization: "Bearer " + user.token,
                 },
                 body: JSON.stringify(newData),
               })
                 .then((res) => res.json())
-                .then((product) => {
-                  setData([...data, product]);
+                .then((category) => {
+                  setData([...data, category]);
                 });
               resolve();
             }, 1000);
@@ -165,11 +130,12 @@ const AdminControl = () => {
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
-              fetch(`/api/products/${oldData._id}`, {
+              fetch(`/api/categories/${oldData._id}`, {
                 method: "PUT",
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
+                  Authorization: "Bearer " + user.token,
                 },
                 body: JSON.stringify(newData),
               });
@@ -184,8 +150,13 @@ const AdminControl = () => {
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
               setData([...dataDelete]);
-              fetch(`/api/products/${oldData._id}`, {
+              fetch(`/api/categories/${oldData._id}`, {
                 method: "DELETE",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + user.token,
+                },
               });
 
               resolve();
@@ -196,4 +167,4 @@ const AdminControl = () => {
   );
 };
 
-export default AdminControl;
+export default EditCategories;
