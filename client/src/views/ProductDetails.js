@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { CartContext } from "../Context/CartContext";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-
+import axios from "axios";
 import { ButtonGroup } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,15 +42,30 @@ export default function ProductDetails() {
   const [preLoading, setPreLoading] = useState(false);
   useEffect(() => {
     setPreLoading(true);
-    fetch(`/api/products/${id}`)
-      .then((res) => res.json())
-      .catch((error) => console.log(error))
-      .then((json) => {
-        setProduct(json);
+    const url = `/api/products/${id}`;
+    axios
+      .get(url)
+      .then((res) => {
+        let data = res.data;
+        setProduct(data);
         setPreLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        console.log(err);
+      });
   }, [id]);
+
+  // useEffect(() => {
+  //   setPreLoading(true);
+  //   fetch(`/api/products/${id}`)
+  //     .then((res) => res.json())
+  //     .catch((error) => console.log(error))
+  //     .then((json) => {
+  //       setProduct(json);
+  //       setPreLoading(false);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, [id]);
   const qty = qtyId(id);
   const classes = useStyles();
   console.log("1", Product);

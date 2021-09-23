@@ -43,7 +43,7 @@ function App() {
             <NavBar />
             <Container fixed>
               <Switch>
-                <Route exact path="/product/:id" component={ProductDetails} />
+                <Route path="/products/:id" component={ProductDetails} />
                 <Route exact path="/control" component={AdminControl} />
                 <Route
                   exact

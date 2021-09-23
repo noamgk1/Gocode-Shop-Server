@@ -1,5 +1,5 @@
 import "./Product.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Card from "@material-ui/core/Card";
@@ -14,6 +14,7 @@ import { Button, Grid } from "@material-ui/core";
 import Fade from "react-reveal/Fade";
 import { CartContext } from "../../Context/CartContext";
 import RubberBand from "react-reveal/RubberBand";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,20 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Product = ({ id, image, title, price, category, key }) => {
   const classes = useStyles();
-  // const [categoryId, setCategoryId] = useState();
-  // useEffect(() => {
-  //   fetch(`/api/categories/${category}`, {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       setCategoryId(json.category.name);
-  //     });
-  // }, []);
+
   const titleLength =
     title.length > 30
       ? title.slice(0, 30)
@@ -69,6 +57,7 @@ const Product = ({ id, image, title, price, category, key }) => {
           <Card className={classes.root}>
             <div className="product-image">
               <CardMedia
+                alt={title}
                 className={classes.media}
                 image={image}
                 title={title}
@@ -126,11 +115,12 @@ const Product = ({ id, image, title, price, category, key }) => {
                     )}
                   </ButtonGroup>
                 </Grid>
-
-                <IconButton href={`/product/${id}`} aria-label="show more">
-                  <h6>More</h6>
-                  <ExpandMoreIcon />
-                </IconButton>
+                <Link to={`/products/${id}`}>
+                  <IconButton aria-label="show more">
+                    <h6>More</h6>
+                    <ExpandMoreIcon />
+                  </IconButton>
+                </Link>
               </CardActions>
             </div>
           </Card>
