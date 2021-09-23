@@ -9,7 +9,24 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 
-const theme = createTheme();
+const theme = createTheme({
+  text: {
+    primary: "#fff",
+  },
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: "#126264",
+      contrastText: "#fff",
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: "##5f9ea0",
+      dark: "#b2102f",
+    },
+  },
+});
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),

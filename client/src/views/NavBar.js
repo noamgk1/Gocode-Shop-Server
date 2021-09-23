@@ -117,9 +117,6 @@ function NavBar() {
           onClose={handleMobileMenuClose}
         >
           <MenuItem>
-            <SideCart />
-          </MenuItem>
-          <MenuItem>
             {!user.user && <SignInSide />}
             {user.user && <Logout />}
           </MenuItem>
@@ -159,8 +156,8 @@ function NavBar() {
             <NavLink to="/">My Shop</NavLink>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
+          <SideCart />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <SideCart />
             {!user.user && <SignInSide />}
             {user.user && <Logout />}
             <IconButton
