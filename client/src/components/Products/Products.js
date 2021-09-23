@@ -1,7 +1,14 @@
 import "./Products.css";
 import Product from "../Product/Product";
 import Grid from "@material-ui/core/Grid";
-const Products = ({ products }) => {
+const Products = ({ products, category }) => {
+  //change from id to name
+  const whatCategory = (id) => {
+    const c = category.filter((p) => p._id === id);
+    if (c[0]) {
+      return c[0]["name"];
+    } else return " ";
+  };
   return (
     <Grid
       container
@@ -18,7 +25,7 @@ const Products = ({ products }) => {
           title={products.title}
           price={products.price}
           description={products.description}
-          category={products.category}
+          category={whatCategory(products.category)}
           image={products.image}
         />
       ))}

@@ -44,14 +44,16 @@ export default function ProductDetails() {
     setPreLoading(true);
     fetch(`/api/products/${id}`)
       .then((res) => res.json())
+      .catch((error) => console.log(error))
       .then((json) => {
         setProduct(json);
         setPreLoading(false);
-      });
+      })
+      .catch((error) => console.log(error));
   }, [id]);
   const qty = qtyId(id);
   const classes = useStyles();
-  console.log(Product);
+  console.log("1", Product);
   return (
     <div className={classes.root}>
       {preLoading && <Loading />}

@@ -31,12 +31,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Product = ({ id, image, title, price, category, key }) => {
   const classes = useStyles();
-  const [categoryId, setCategoryId] = useState();
-  useEffect(() => {
-    fetch(`/api/categories/${category}`)
-      .then((res) => res.json())
-      .then((json) => setCategoryId(json.category.name));
-  }, []);
+  // const [categoryId, setCategoryId] = useState();
+  // useEffect(() => {
+  //   fetch(`/api/categories/${category}`, {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       setCategoryId(json.category.name);
+  //     });
+  // }, []);
   const titleLength =
     title.length > 30
       ? title.slice(0, 30)
@@ -78,7 +86,7 @@ const Product = ({ id, image, title, price, category, key }) => {
                   </h1>
 
                   <br />
-                  <h4>{categoryId}</h4>
+                  <h4>{category}</h4>
                 </Typography>
               </CardContent>
 

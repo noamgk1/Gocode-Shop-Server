@@ -60,7 +60,6 @@ function Home() {
         .then((res) => res.json())
         .then((json) => {
           setProducts(json);
-
           setPreLoading(false);
         });
     } else {
@@ -166,7 +165,7 @@ function Home() {
         <br />
         {preLoading && <Loading />}
         <br />
-        <Products products={products} />
+        <Products products={products} category={categories} />
       </div>
     </Grid>
   );

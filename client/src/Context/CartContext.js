@@ -57,6 +57,7 @@ function CartContextProvider(props) {
   // }, [cartList]);
 
   const onAdd = (product) => {
+    product.id = product.id ? product.id : product._id;
     let exist = cartList.findIndex((x) => x.id === product.id);
     if (exist > -1) {
       setCartList(
@@ -69,7 +70,7 @@ function CartContextProvider(props) {
         ...cartList,
         {
           category: product.category,
-          id: product.id ? product.id : product._id,
+          id: product.id,
           title: product.title,
           price: product.price,
           image: product.image,
@@ -80,6 +81,7 @@ function CartContextProvider(props) {
   };
 
   const onRemove = (product) => {
+    product.id = product.id ? product.id : product._id;
     let exist = cartList.findIndex((x) => x.id === product.id);
     if (exist > -1) {
       if (cartList[exist].qty === 1) {

@@ -35,7 +35,6 @@ module.exports = {
         }
 
         if (products) {
-          console.log(products);
           res.send(products);
         } else {
           res.send("There are no matching products!");
@@ -59,7 +58,6 @@ module.exports = {
   postProduct: (req, res) => {
     const { title, price, image, category, description } = req.body;
     if (title && price && image && category && description) {
-      console.log(req.body);
       Category.findById(category)
         .then((category1) => {
           if (!category1) {
