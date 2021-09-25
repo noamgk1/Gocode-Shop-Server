@@ -51,7 +51,34 @@ function Home() {
     .filter((value) => value > 0);
 
   //choose from query
+  const onChooseCategory = (e) => {
+    console.log(e);
+    const search = e;
+    setCategoryNow(search);
+    setPreLoading(true);
+
+    const id = categories.filter((p) => p.name === search);
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        fetch(`/api/products/?category=${id[0]["_id"]}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((product) => {
+            setProducts(product);
+            setPreLoading(false);
+          });
+        resolve();
+      }, 1000);
+    });
+  };
+
   const onChoose = (e) => {
+    console.log(e);
     const search = e.target.value;
     setCategoryNow(search);
     setPreLoading(true);
@@ -165,7 +192,11 @@ function Home() {
         <br />
         {preLoading && <Loading />}
         <br />
-        <Products products={products} category={categories} />
+        <Products
+          products={products}
+          category={categories}
+          onChoose={onChooseCategory}
+        />
       </div>
     </Grid>
   );

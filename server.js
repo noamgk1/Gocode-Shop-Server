@@ -18,6 +18,7 @@ mongoose.connection.on("connected", () => {
   console.log("MongoDB Connected!");
 });
 
+const ordersRoutes = require("./api/routes/orders");
 const productsRoutes = require("./api/routes/products");
 const usersRoutes = require("./api/routes/users");
 const categoriesRoutes = require("./api/routes/categories");
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/categories", categoriesRoutes);
+app.use("/api/orders", ordersRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");

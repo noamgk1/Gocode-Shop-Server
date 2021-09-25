@@ -109,7 +109,7 @@ const SignInSide = () => {
       },
     };
     const user = await axios.post(url, values, options);
-    console.log(user);
+
     if (user.status === 200) {
       localStorage.setItem("user", JSON.stringify(user.data));
 

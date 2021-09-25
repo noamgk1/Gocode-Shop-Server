@@ -136,10 +136,6 @@ const Header = ({
             </div>
           </Grid>
 
-          <Grid align=" center" dir="ltr" item xs="auto">
-            <FilterByPrice value={value} handleChange={handleChange} />
-          </Grid>
-
           <Grid item xs="auto">
             <TextField
               className={classes.search1}
@@ -155,6 +151,10 @@ const Header = ({
                 </MenuItem>
               ))}
             </TextField>
+          </Grid>
+
+          <Grid align=" center" dir="ltr" item xs="auto">
+            <FilterByPrice value={value} handleChange={handleChange} />
           </Grid>
         </Grid>
       </Paper>

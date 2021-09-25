@@ -1,7 +1,7 @@
 import "./Products.css";
 import Product from "../Product/Product";
 import Grid from "@material-ui/core/Grid";
-const Products = ({ products, category }) => {
+const Products = ({ products, category, onChoose }) => {
   //change from id to name
   const whatCategory = (id) => {
     const c = category.filter((p) => p._id === id);
@@ -20,6 +20,7 @@ const Products = ({ products, category }) => {
     >
       {products.map((products) => (
         <Product
+          onChoose={onChoose}
           key={products._id}
           id={products._id}
           title={products.title}

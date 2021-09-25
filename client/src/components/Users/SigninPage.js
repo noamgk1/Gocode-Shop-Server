@@ -38,7 +38,7 @@ const SettingControls = {
 export default function SignIn() {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
-
+  const history = useHistory();
   const [control, setControl] = useState(SettingControls);
 
   function inputChangedHandler(e) {
@@ -47,30 +47,29 @@ export default function SignIn() {
 
   async function submitHandler(e) {
     e.preventDefault();
-    //   const {email,password,firstName,lastName} = controles;
     const url = "/api/users/login";
     const options = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    try {
-      const user1 = await axios.post(url, control, options);
 
-      if (user1.status === 200) {
-        setUser([
-          { cart: null },
-          {
-            accessToken: user1.data.token,
-            user: user1.data.user,
-            admin: user1.data.admin,
-          },
-        ]);
-        localStorage.setItem("user", JSON.stringify(user));
+    const user = await axios.post(url, control, options);
+    console.log(user);
+    if (user.status === 200) {
+      localStorage.setItem("user", JSON.stringify(user.data));
+
+      setUser({
+        accessToken: user.data.token,
+        user: user.data.user,
+        admin: user.data.admin,
+      });
+
+      if (user.data.admin) {
+        history.push("/control");
+      } else {
+        history.push("/");
       }
-    } catch (err) {
-      // throw Error(err);
-      console.log(err);
     }
   }
 

@@ -50,16 +50,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: 270,
+    width: 250,
+  },
+  menu: {
+    margin: theme.spacing(4, 4),
+    flexDirection: "column",
+    alignItems: "center",
+    width: 250,
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -119,42 +122,99 @@ function NavBar() {
   };
 
   const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Paper sx={{ width: 200 }}>
-      <MenuList dense>
-        <Menu
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          id={menuId}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={isMenuOpen}
-          onClose={handleMenuClose}
-        >
-          <MenuItem onClick={controlPage}>
-            <ListItemIcon>
-              <SettingsIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText inset>Control</ListItemText>
-          </MenuItem>
-          <Divider />
+  // const renderMenu = (
+  //   <Grid container component="main" className={classes.root}>
+  //     <Grid component={Paper} elevation={6} square>
+  //       <div className={classes.paper}>
+  //         <Avatar className={classes.avatar}>
+  //           <PersonPinIcon />
+  //         </Avatar>
+  //         <Typography component="h1" variant="h5">
+  //           Welcome {user.user}
+  //         </Typography>
 
-          <MenuItem onClick={loginPage}>
-            <ListItemIcon>
-              <LoginIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText inset>Login</ListItemText>
-          </MenuItem>
-        </Menu>
-      </MenuList>
-    </Paper>
-  );
+  //         <MenuList>
+  //           <MenuItem onClick={controlPage}>
+  //             <ListItemIcon>
+  //               <SettingsIcon fontSize="small" />
+  //             </ListItemIcon>
+  //             <ListItemText inset>Control</ListItemText>
+  //           </MenuItem>
+  //           <Divider />
+
+  //           <MenuItem onClick={loginPage}>
+  //             <LoginIcon fontSize="small" />
+
+  //             <ListItemText inset>Login</ListItemText>
+  //           </MenuItem>
+  //         </MenuList>
+
+  //         {/* <MenuItem>
+  //         {!user.user && <SignInSide />}
+  //         {user.user && <Logout />}
+  //       </MenuItem> */}
+  //         <Divider />
+  //         <Button
+  //           type="submit"
+  //           fullWidth
+  //           variant="contained"
+  //           color="primary"
+  //           className={classes.submit}
+  //         >
+  //           Sign In
+  //         </Button>
+  //         <Grid container>
+  //           <Grid item xs>
+  //             <Link href="#" variant="body2">
+  //               Forgot password?
+  //             </Link>
+  //           </Grid>
+  //           <Grid item>
+  //             <Link href="/signUp" variant="body2">
+  //               {"Don't have an account? Sign Up"}
+  //             </Link>
+  //           </Grid>
+  //         </Grid>
+  //         <Box mt={5}></Box>
+  //       </div>
+  //     </Grid>
+  //   </Grid>
+
+  //   // <Paper sx={{ width: 200 }}>
+  //   //   <MenuList dense>
+  //   //     <Menu
+  //   //       anchorEl={anchorEl}
+  //   //       anchorOrigin={{
+  //   //         vertical: "top",
+  //   //         horizontal: "right",
+  //   //       }}
+  //   //       id={menuId}
+  //   //       keepMounted
+  //   //       transformOrigin={{
+  //   //         vertical: "top",
+  //   //         horizontal: "right",
+  //   //       }}
+  //   //       open={isMenuOpen}
+  //   //       onClose={handleMenuClose}
+  //   //     >
+  //   //       <MenuItem onClick={controlPage}>
+  //   //         <ListItemIcon>
+  //   //           <SettingsIcon fontSize="small" />
+  //   //         </ListItemIcon>
+  //   //         <ListItemText inset>Control</ListItemText>
+  //   //       </MenuItem>
+  //   //       <Divider />
+
+  //   //       <MenuItem onClick={loginPage}>
+  //   //         <ListItemIcon>
+  //   //           <LoginIcon fontSize="small" />
+  //   //         </ListItemIcon>
+  //   //         <ListItemText inset>Login</ListItemText>
+  //   //       </MenuItem>
+  //   //     </Menu>
+  //   //   </MenuList>
+  //   // </Paper>
+  // );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   // const renderMobileMenu = (
@@ -207,23 +267,54 @@ function NavBar() {
           <Typography component="h1" variant="h5">
             Welcome {user.user}
           </Typography>
+          <div className={classes.menu}>
+            <MenuList>
+              {user.user && (
+                <>
+                  <Logout />
+                  <Divider />
+                </>
+              )}
+              {!user.user && (
+                <>
+                  <MenuItem onClick={loginPage}>
+                    <LoginIcon fontSize="small" />
 
-          <MenuList>
-            <MenuItem onClick={controlPage}>
-              <ListItemIcon>
-                <SettingsIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText inset>Control</ListItemText>
-            </MenuItem>
-            <Divider />
-
-            <MenuItem onClick={loginPage}>
-              <LoginIcon fontSize="small" />
-
-              <ListItemText inset>Login</ListItemText>
-            </MenuItem>
-          </MenuList>
-
+                    <ListItemText inset>Login</ListItemText>
+                  </MenuItem>
+                  <Divider />
+                </>
+              )}
+              <MenuItem onClick={controlPage}>
+                <ListItemIcon>
+                  <SettingsIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText inset>Admin Control</ListItemText>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={controlPage}>
+                <ListItemIcon>
+                  <SettingsIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText inset>Cart</ListItemText>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={controlPage}>
+                <ListItemIcon>
+                  <SettingsIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText inset>About</ListItemText>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={controlPage}>
+                <ListItemIcon>
+                  <SettingsIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText inset>Contact</ListItemText>
+              </MenuItem>
+              <Divider />
+            </MenuList>
+          </div>
           {/* <MenuItem>
             {!user.user && <SignInSide />}
             {user.user && <Logout />}
@@ -235,20 +326,13 @@ function NavBar() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            href="tel:+972-555-555-1212"
           >
-            Sign In
+            Call Us
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signUp" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+            <Grid item xs></Grid>
+            <Grid item></Grid>
           </Grid>
           <Box mt={5}></Box>
         </div>
@@ -284,7 +368,7 @@ function NavBar() {
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
+                onClick={handleProfileMenuOpen && toggleDrawer("right", true)}
               >
                 <MenuIcon />
               </IconButton>
@@ -312,7 +396,6 @@ function NavBar() {
           {renderMobileMenu}
         </SwipeableDrawer>
 
-        {renderMenu}
         <br />
         <br />
         <br />

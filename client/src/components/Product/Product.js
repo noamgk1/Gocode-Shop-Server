@@ -15,28 +15,34 @@ import Fade from "react-reveal/Fade";
 import { CartContext } from "../../Context/CartContext";
 import RubberBand from "react-reveal/RubberBand";
 import { Link } from "react-router-dom";
+import { Box } from "@mui/system";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 300,
+    maxWidth: 270,
   },
   title: {
     minHeight: 100,
     height: 100,
   },
   media: {
-    height: 100,
-    paddingTop: "70%", // 16:9
+    maxHeight: 80,
+    paddingTop: "100%", // 16:9
   },
 }));
 
-const Product = ({ id, image, title, price, category, key }) => {
+const Product = ({ onChoose, id, image, title, price, category, key }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const click = () => {
+    return history.push(`/products/${id}`);
+  };
 
   const titleLength =
-    title.length > 30
-      ? title.slice(0, 30)
-      : title.length < 21
+    title.length > 25
+      ? title.slice(0, 27)
+      : title.length < 20
       ? title + "-My Shop"
       : title;
 
@@ -52,11 +58,22 @@ const Product = ({ id, image, title, price, category, key }) => {
   const qty = qtyId(id);
   return (
     <Fade top cascade>
-      <Grid item xs="auto">
+      <Box
+        sx={{
+          width: {
+            xs: 140, // theme.breakpoints.up('xs')
+            sm: "auto", // theme.breakpoints.up('sm')
+            md: 270, // theme.breakpoints.up('md')
+            lg: 270, // theme.breakpoints.up('lg')
+            xl: 270, // theme.breakpoints.up('xl')
+          },
+        }}
+      >
         <div className="product-card">
           <Card className={classes.root}>
             <div className="product-image">
               <CardMedia
+                onClick={click}
                 alt={title}
                 className={classes.media}
                 image={image}
@@ -65,9 +82,12 @@ const Product = ({ id, image, title, price, category, key }) => {
             </div>
             <div className="product-info">
               <CardHeader
+                style={{ width: "auto", height: 45 }}
+                onClick={click}
                 className={classes.root}
-                title={<div>{titleLength}</div>}
+                title={<h3>{title.replace(/^(.{20}[^\s]*).*/, "$1")}</h3>}
               />
+              <br />
               <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                   <h1>
@@ -75,7 +95,7 @@ const Product = ({ id, image, title, price, category, key }) => {
                   </h1>
 
                   <br />
-                  <h4>{category}</h4>
+                  <h4 onClick={() => onChoose(category)}>{category}</h4>
                 </Typography>
               </CardContent>
 
@@ -125,7 +145,7 @@ const Product = ({ id, image, title, price, category, key }) => {
             </div>
           </Card>
         </div>
-      </Grid>
+      </Box>
     </Fade>
   );
 };
