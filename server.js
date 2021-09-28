@@ -75,6 +75,7 @@ const Wix = mongoose.model("Wix", wixSchema);
 app.post("/api/wix", (req, res) => {
   const { pname, image, price, id, phone, lname, fname, url } = req.body;
   console.log(req.body);
+  console.log("111111111111", req);
   const wixi = new Wix({
     _id: new mongoose.Types.ObjectId(),
     pname,
