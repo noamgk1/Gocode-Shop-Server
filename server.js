@@ -6,6 +6,8 @@ require("dotenv").config();
 const cors = require("cors");
 const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
 
+console.log(express);
+
 mongoose.connect(
   `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
@@ -72,7 +74,7 @@ const Wix = mongoose.model("Wix", wixSchema);
 
 app.post("/api/wix", (req, res) => {
   const { pname, image, price, id, phone, lname, fname, url } = req.body;
-  // console.log(req.body);
+  console.log(req.body);
   const wixi = new Wix({
     _id: new mongoose.Types.ObjectId(),
     pname,
@@ -85,6 +87,7 @@ app.post("/api/wix", (req, res) => {
     url,
   });
   wixi.save();
+
   res.send(wixi);
   console.log(wixi);
 });
