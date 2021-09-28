@@ -110,54 +110,56 @@ const Header = ({
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper color={classes.root.color}>
-        {" "}
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={1}
-        >
-          <Grid item xs="auto">
-            <div className={classes.search}>
-              <div align="left" className={classes.searchIcon}>
-                <SearchIcon />
+      <div className={classes.root}>
+        <Paper color="primary">
+          {" "}
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={1}
+          >
+            <Grid item xs="auto">
+              <div className={classes.search}>
+                <div align="left" className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  onChange={onSearch}
+                  inputProps={{ "aria-label": "search" }}
+                />
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                onChange={onSearch}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
-          </Grid>
+            </Grid>
 
-          <Grid item xs="auto">
-            <TextField
-              className={classes.search1}
-              id="outlined-select-currency"
-              select
-              label="Filter by:"
-              variant="outlined"
-              onChange={onChoose}
-            >
-              {category.map((p) => (
-                <MenuItem key={index++} value={p}>
-                  {p}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
+            <Grid item xs="auto">
+              <TextField
+                className={classes.search1}
+                id="outlined-select-currency"
+                select
+                label="Filter by:"
+                variant="outlined"
+                onChange={onChoose}
+              >
+                {category.map((p) => (
+                  <MenuItem key={index++} value={p}>
+                    {p}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
 
-          <Grid align=" center" dir="ltr" item xs="auto">
-            <FilterByPrice value={value} handleChange={handleChange} />
+            <Grid align=" center" dir="ltr" item xs="auto">
+              <FilterByPrice value={value} handleChange={handleChange} />
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </div>
     </ThemeProvider>
   );
 };

@@ -75,17 +75,21 @@ function NavBar() {
 
   const [user] = useContext(UserContext);
   const history = useHistory();
-
+  const [state, setState] = React.useState({
+    left: false,
+  });
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const loginPage = () => {
-    handleMenuClose();
+    setState({ ...state, ["right"]: false });
+
     return history.push("/login");
   };
 
   const controlPage = () => {
-    handleMenuClose();
+    setState({ ...state, ["right"]: false });
+
     return history.push("/control");
   };
   const handleProfileMenuOpen = (event) => {
@@ -104,10 +108,6 @@ function NavBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  const [state, setState] = React.useState({
-    left: false,
-  });
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (

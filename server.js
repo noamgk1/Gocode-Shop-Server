@@ -53,6 +53,42 @@ app.use("/api/users", usersRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/orders", ordersRoutes);
 
+const wixSchema = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  id: { type: String },
+  phone: { type: String },
+  lname: {
+    type: String,
+  },
+  fname: { type: String },
+  url: { type: String },
+  price: { type: Number },
+  image: { type: String },
+  pname: { type: String },
+  date: { type: Date, default: Date.now },
+});
+
+const Wix = mongoose.model("Wix", wixSchema);
+
+app.post("/api/wix", (req, res) => {
+  const { pname, image, price, id, phone, lname, fname, url } = req.body;
+  // console.log(req.body);
+  const wixi = new Wix({
+    _id: new mongoose.Types.ObjectId(),
+    pname,
+    image,
+    price,
+    id,
+    phone,
+    lname,
+    fname,
+    url,
+  });
+  wixi.save();
+  res.send(wixi);
+  console.log(wixi);
+});
+
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
