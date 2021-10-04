@@ -6,12 +6,13 @@ export const UserContext = createContext();
 const getUser = () => {
   const userString = localStorage.getItem("user");
   const user = JSON.parse(userString);
+  console.log("h", user);
   return user ? user : null;
 };
 
 function UserContextProvider(props) {
   const [user, setUser] = useState([]);
-
+  const [admin, setAdmin] = useState([false]);
   // async function guest() {
   //   const url = "/api/users/guest";
   //   const options = {
@@ -36,20 +37,18 @@ function UserContextProvider(props) {
     if (getUser()) {
       setUser(getUser());
     } else {
+      setAdmin(false);
       localStorage.setItem(
         "user",
         JSON.stringify({
           user: null,
-          admin: null,
         })
       );
     }
   }, []);
-
+  const value = ([user, setUser], [admin, setAdmin]);
   return (
-    <UserContext.Provider value={[user, setUser]}>
-      {props.children}
-    </UserContext.Provider>
+    <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
   );
 }
 
