@@ -39,12 +39,12 @@ const Product = ({ onChoose, id, image, title, price, category, key }) => {
     return history.push(`/products/${id}`);
   };
 
-  const titleLength =
-    title.length > 25
-      ? title.slice(0, 27)
-      : title.length < 20
-      ? title + "-My Shop"
-      : title;
+  // const titleLength =
+  //   title.length > 25
+  //     ? title.slice(0, 27)
+  //     : title.length < 20
+  //     ? title + "-My Shop"
+  //     : title;
 
   const cart = {
     id: id,
@@ -80,22 +80,26 @@ const Product = ({ onChoose, id, image, title, price, category, key }) => {
                 title={title}
               />
             </div>
+            <br />
             <div className="product-info">
               <CardHeader
                 style={{ width: "auto", height: 45 }}
                 onClick={click}
                 className={classes.root}
-                title={<h3>{title.replace(/^(.{20}[^\s]*).*/, "$1")}</h3>}
+                title={<h4>{title.replace(/^(.{20}[^\s]*).*/, "$1")}</h4>}
               />
               <br />
               <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <h1>
-                    <b>{price} $</b>
-                  </h1>
-
-                  <br />
-                  <h4 onClick={() => onChoose(category)}>{category}</h4>
+                <Typography component="p" variant="h6" color="secondary">
+                  {price} $
+                </Typography>
+                <br />
+                <Typography
+                  variant="subtitle1"
+                  color="inherit"
+                  onClick={() => onChoose(category)}
+                >
+                  {category}
                 </Typography>
               </CardContent>
 
@@ -112,14 +116,14 @@ const Product = ({ onChoose, id, image, title, price, category, key }) => {
                   >
                     <Button
                       variant="outlined"
-                      color="black"
+                      color="default"
                       onClick={() => onAdd(cart)}
                     >
                       +
                     </Button>
 
                     {qty > 0 && (
-                      <Button variant="contained" disabled>
+                      <Button color="default" variant="contained" disabled>
                         <RubberBand>{qty}</RubberBand>
                       </Button>
                     )}
@@ -127,7 +131,7 @@ const Product = ({ onChoose, id, image, title, price, category, key }) => {
                     {qtyId(id) > 0 && (
                       <Button
                         variant="outlined"
-                        color="black"
+                        color="default"
                         onClick={() => onRemove(cart)}
                       >
                         -

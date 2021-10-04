@@ -19,6 +19,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
+import { AdminContext } from "../../Context/AdminContext";
 import axios from "axios";
 
 function Copyright() {
@@ -77,6 +78,7 @@ const StyledBadge = withStyles((theme) => ({
 const SignInSide = () => {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
+  const [admin, setAdmin] = useContext(UserContext);
   const history = useHistory();
   const [state, setState] = React.useState({
     left: false,
@@ -116,14 +118,15 @@ const SignInSide = () => {
       setUser({
         accessToken: user.data.token,
         user: user.data.user,
-        admin: user.data.admin,
       });
       setState({
         left: false,
       });
       if (user.data.admin) {
+        setAdmin(true);
         history.push("/control");
       } else {
+        setAdmin(false);
         history.push("/");
       }
     }

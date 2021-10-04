@@ -20,6 +20,7 @@ import Badge from "@material-ui/core/Badge";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -73,15 +74,22 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const SideCart = () => {
+  const history = useHistory();
   const { cartList } = useContext(CartContext);
+  const { onRemove, onAdd } = useContext(CartContext);
   const classes = useStyles();
   const itemsPrice = cartList
     ? cartList.reduce((a, c) => a + c.qty * c.price, 0)
     : null;
   const [state, setState] = React.useState({
-    left: false,
+    right: false,
   });
-  const { onRemove, onAdd } = useContext(CartContext);
+
+  const cart = () => {
+    setState({ ...state, right: false });
+    return history.push("/cart");
+  };
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -172,9 +180,9 @@ const SideCart = () => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          // onClick={login}
+          onClick={cart}
         >
-          payment
+          Your Cart
         </Button>
       </List>
     </div>
@@ -182,7 +190,7 @@ const SideCart = () => {
 
   return (
     <div>
-      <React.Fragment key={"right"}>
+      <React.Fragment>
         <IconButton
           className={classes.margin}
           onClick={toggleDrawer("right", true)}

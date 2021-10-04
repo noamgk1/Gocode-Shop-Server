@@ -15,8 +15,7 @@ const Products = ({ products, category, onChoose }) => {
       direction="row"
       justifyContent="center"
       alignItems="center"
-      spacing={{ xs: 2, md: 3 }}
-      columns={{ xs: 4, sm: 8, md: 12 }}
+      key={products._id}
     >
       {products.map((products) => (
         <Product

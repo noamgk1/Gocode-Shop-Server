@@ -80,8 +80,8 @@ const FilterByPrice = ({ value, handleChange }) => {
   return (
     <div className={classes.root}>
       <div className={classes.margin} />
-      <Typography gutterBottom>
-        <h4>Filter by Price:</h4>
+      <Typography gutterBottom variant="h6">
+        Filter by Price:
       </Typography>
       <AirbnbSlider
         ValueLabelComponent={ValueLabelComponent}

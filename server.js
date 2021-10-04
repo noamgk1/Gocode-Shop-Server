@@ -6,8 +6,6 @@ require("dotenv").config();
 const cors = require("cors");
 const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
 
-console.log(express);
-
 mongoose.connect(
   `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
@@ -54,44 +52,6 @@ app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/orders", ordersRoutes);
-
-const wixSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  id: { type: String },
-  phone: { type: String },
-  lname: {
-    type: String,
-  },
-  fname: { type: String },
-  url: { type: String },
-  price: { type: Number },
-  image: { type: String },
-  pname: { type: String },
-  date: { type: Date, default: Date.now },
-});
-
-const Wix = mongoose.model("Wix", wixSchema);
-
-app.post("/api/wix", (req, res) => {
-  const { pname, image, price, id, phone, lname, fname, url } = req.body;
-  console.log(req.body);
-  console.log("111111111111", req);
-  const wixi = new Wix({
-    _id: new mongoose.Types.ObjectId(),
-    pname,
-    image,
-    price,
-    id,
-    phone,
-    lname,
-    fname,
-    url,
-  });
-  wixi.save();
-
-  res.send(wixi);
-  console.log(wixi);
-});
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");

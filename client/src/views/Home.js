@@ -23,12 +23,13 @@ function Home() {
   const [preLoading, setPreLoading] = useState(false);
   const [productsFilterPrice, setProductsFilterPrice] = useState([]);
 
-  const [minmax, setMinMax] = useState([]);
+  const [setMinMax] = useState([]);
   const [categoryNow, setCategoryNow] = useState([]);
   const [categories, setCategories] = useState(["All Products"]);
   const classes = useStyles();
 
   //get the products from API
+
   useEffect(() => {
     setPreLoading(true);
     fetch("/api/products")
@@ -36,12 +37,12 @@ function Home() {
       .then((json) => {
         setProducts(json);
         setProductsFilterPrice(json);
-        setPreLoading(false);
       });
     fetch("/api/categories")
       .then((res) => res.json())
       .then((json) => {
         setCategories(json);
+        setPreLoading(false);
       });
   }, []);
 
@@ -82,7 +83,7 @@ function Home() {
     const search = e.target.value;
     setCategoryNow(search);
     setPreLoading(true);
-    if (search == "All Products") {
+    if (search === "All Products") {
       fetch("/api/products")
         .then((res) => res.json())
         .then((json) => {
@@ -178,7 +179,7 @@ function Home() {
   };
 
   return (
-    <Grid alignItems="center">
+    <Grid>
       <div className={classes.root}>
         <Header
           setMinMax={[setMinMax]}

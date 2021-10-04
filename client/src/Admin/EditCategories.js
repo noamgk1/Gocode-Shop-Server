@@ -18,6 +18,9 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../Context/UserContext";
+import { useContext } from "react";
+import { AdminContext } from "../Context/AdminContext";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -44,11 +47,11 @@ const tableIcons = {
 };
 const EditCategories = () => {
   const history = useHistory();
-  const userString = localStorage.getItem("user");
-  const user = JSON.parse(userString);
+  const [user] = useContext(UserContext);
+  const [admin] = useContext(AdminContext);
 
   useEffect(() => {
-    if (user && user.admin) {
+    if (admin === true) {
       fetch("/api/categories")
         .then((res) => res.json())
         .then((json) => {
@@ -111,7 +114,7 @@ const EditCategories = () => {
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + user.token,
+                  Authorization: "Bearer " + user.accessToken,
                 },
                 body: JSON.stringify(newData),
               })
@@ -135,7 +138,7 @@ const EditCategories = () => {
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + user.token,
+                  Authorization: "Bearer " + user.accessToken,
                 },
                 body: JSON.stringify(newData),
               });
@@ -155,7 +158,7 @@ const EditCategories = () => {
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + user.token,
+                  Authorization: "Bearer " + user.accessToken,
                 },
               });
 

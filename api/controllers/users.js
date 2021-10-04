@@ -26,6 +26,7 @@ require("dotenv").config();
 //     }
 //   });
 // });
+adminTokens = [];
 refreshTokens = [];
 module.exports = {
   signup: (req, res) => {
@@ -38,7 +39,7 @@ module.exports = {
         });
       }
 
-      bcrypt.hash(password, 10, (error, hash) => {
+      bcrypt.hash(password, 600, (error, hash) => {
         if (error) {
           return res.status(500).json({
             error,
@@ -98,9 +99,12 @@ module.exports = {
             },
             process.env.JWT_KEY,
             {
-              expiresIn: "60m",
+              expiresIn: "100m",
             }
           );
+          if (user.admin) {
+            adminTokens.push(token);
+          }
 
           return res.status(200).json({
             token,
@@ -116,19 +120,17 @@ module.exports = {
     });
   },
 
-  guest: (req, res) => {
-    const cart = [null];
-    const obj = {
-      message: "Guest successful",
-      token: null,
-      user: null,
-      admin: null,
-    };
-    return res.status(200).json({ cart: cart, user: obj });
+  admin: (req, res) => {
+    const { token } = req.body;
+    const a = adminTokens.filter((token1) => token1 === token);
+    if (a[0] === token) {
+      return res.status(200).json({ admin: true });
+    }
   },
 
   logout: (req, res) => {
     const refreshToken = req.body.token;
+    adminTokens = adminTokens.filter((token) => token !== refreshToken);
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
     res.status(200).json("You logged out successfully.");
   },

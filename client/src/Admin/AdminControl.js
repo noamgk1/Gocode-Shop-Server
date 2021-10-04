@@ -8,7 +8,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-
+import { AdminContext } from "../Context/AdminContext";
+import { useContext } from "react";
 const theme = createTheme({
   text: {
     primary: "#fff",
@@ -49,10 +50,9 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminControl() {
   const classes = useStyles();
   const history = useHistory();
-  const userString = localStorage.getItem("user");
-  const user = JSON.parse(userString);
+  const [admin] = useContext(AdminContext);
 
-  if (!(user && user.admin)) {
+  if (!admin === true) {
     history.push("/");
   }
 

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
+import { AdminContext } from "../../Context/AdminContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,6 +39,7 @@ const SettingControls = {
 export default function SignIn() {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
+  const [admin, setAdmin] = useContext(AdminContext);
   const history = useHistory();
   const [control, setControl] = useState(SettingControls);
 
@@ -55,19 +57,20 @@ export default function SignIn() {
     };
 
     const user = await axios.post(url, control, options);
-    console.log(user);
+
     if (user.status === 200) {
       localStorage.setItem("user", JSON.stringify(user.data));
 
       setUser({
         accessToken: user.data.token,
         user: user.data.user,
-        admin: user.data.admin,
       });
 
       if (user.data.admin) {
+        setAdmin(true);
         history.push("/control");
       } else {
+        setAdmin(false);
         history.push("/");
       }
     }
@@ -115,11 +118,6 @@ export default function SignIn() {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link to="/SignUp" variant="body2">
                 {"Don't have an account? Sign Up"}

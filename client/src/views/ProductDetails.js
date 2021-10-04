@@ -68,12 +68,12 @@ export default function ProductDetails() {
   // }, [id]);
   const qty = qtyId(id);
   const classes = useStyles();
-  console.log("1", Product);
+
   return (
     <div className={classes.root}>
       {preLoading && <Loading />}
       <Paper className={classes.paper}>
-        <Grid container spacing={1}>
+        <Grid container>
           <CardActionArea>
             <CardMedia
               className={classes.img}
@@ -100,7 +100,7 @@ export default function ProductDetails() {
             >
               <Button
                 variant="outlined"
-                color="black"
+                color="primary"
                 onClick={() => onAdd(Product)}
               >
                 Add to cart
@@ -113,7 +113,7 @@ export default function ProductDetails() {
               {qtyId(id) > 0 && (
                 <Button
                   variant="outlined"
-                  color="black"
+                  color="primary"
                   onClick={() => onRemove(Product)}
                 >
                   Remove

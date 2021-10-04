@@ -4,6 +4,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@material-ui/core/IconButton";
 import { UserContext } from "../../Context/UserContext";
 import axios from "axios";
+import { AdminContext } from "../../Context/AdminContext";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
@@ -18,9 +19,9 @@ const StyledBadge = withStyles((theme) => ({
 
 function Logout() {
   const [user, setUser] = useContext(UserContext);
+  const [admin, setAdmin] = useContext(AdminContext);
   const history = useHistory();
   async function logout(e) {
-    console.log("11211", user);
     e.preventDefault();
 
     const url = "/api/users/logout";
@@ -38,8 +39,8 @@ function Logout() {
         setUser({
           accessToken: null,
           user: null,
-          admin: null,
         });
+        setAdmin(false);
         return history.go("/");
       }
     } catch (err) {

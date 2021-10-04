@@ -18,7 +18,9 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-
+import { UserContext } from "../Context/UserContext";
+import { useContext } from "react";
+import { AdminContext } from "../Context/AdminContext";
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -44,7 +46,6 @@ const tableIcons = {
 };
 
 function category(a) {
-  let index = 1;
   let obj = a.reduce(function (acc, cur, i) {
     acc[cur._id] = cur.name;
     return acc;
@@ -61,11 +62,12 @@ const EditProducts = () => {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
-  const userString = localStorage.getItem("user");
-  const user = JSON.parse(userString);
+  const [user] = useContext(UserContext);
+  const [admin] = useContext(AdminContext);
+  // const [admin] = useContext(UserContext);
 
   useEffect(() => {
-    if (user && user.admin) {
+    if (admin === true) {
       fetch("/api/products")
         .then((res) => res.json())
         .then((json) => {
@@ -166,7 +168,7 @@ const EditProducts = () => {
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + user.token,
+                  Authorization: "Bearer " + user.accessToken,
                 },
                 body: JSON.stringify(newData),
               })
@@ -190,7 +192,7 @@ const EditProducts = () => {
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + user.token,
+                  Authorization: "Bearer " + user.accessToken,
                 },
                 body: JSON.stringify(newData),
               });
@@ -210,7 +212,7 @@ const EditProducts = () => {
                 headers: {
                   Accept: "application/json",
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + user.token,
+                  Authorization: "Bearer " + user.accessToken,
                 },
               });
 

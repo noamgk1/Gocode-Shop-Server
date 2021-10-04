@@ -4,6 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import SignInSide from "../components/Users/SignInSide";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../Context/UserContext";
+import { AdminContext } from "../Context/AdminContext";
 import { useContext } from "react";
 import Logout from "../components/Users/Logout";
 import * as React from "react";
@@ -11,7 +12,8 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+// import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Divider from "@mui/material/Divider";
@@ -23,16 +25,16 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LoginIcon from "@mui/icons-material/Login";
 import { useHistory } from "react-router-dom";
 
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import TextField from "@material-ui/core/TextField";
+// import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+// import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,43 +72,29 @@ const useStyles = makeStyles((theme) => ({
 
 function NavBar() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const [user] = useContext(UserContext);
+  const [admin] = useContext(AdminContext);
   const history = useHistory();
   const [state, setState] = React.useState({
-    left: false,
+    right: false,
   });
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const loginPage = () => {
-    setState({ ...state, ["right"]: false });
+    setState({ ...state, right: false });
 
     return history.push("/login");
   };
 
   const controlPage = () => {
-    setState({ ...state, ["right"]: false });
+    setState({ ...state, right: false });
 
     return history.push("/control");
   };
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+  const cartPage = () => {
+    setState({ ...state, right: false });
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+    return history.push("/cart");
   };
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -271,7 +259,10 @@ function NavBar() {
             <MenuList>
               {user.user && (
                 <>
-                  <Logout />
+                  <MenuItem>
+                    <Logout fontSize="small" />
+                    <ListItemText inset></ListItemText>
+                  </MenuItem>
                   <Divider />
                 </>
               )}
@@ -285,16 +276,20 @@ function NavBar() {
                   <Divider />
                 </>
               )}
-              <MenuItem onClick={controlPage}>
+              {admin === true && (
+                <>
+                  <MenuItem onClick={controlPage}>
+                    <ListItemIcon>
+                      <SettingsIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText inset>Admin Control</ListItemText>
+                  </MenuItem>
+                  <Divider />
+                </>
+              )}
+              <MenuItem onClick={cartPage}>
                 <ListItemIcon>
-                  <SettingsIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText inset>Admin Control</ListItemText>
-              </MenuItem>
-              <Divider />
-              <MenuItem onClick={controlPage}>
-                <ListItemIcon>
-                  <SettingsIcon fontSize="small" />
+                  <ShoppingCartIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText inset>Cart</ListItemText>
               </MenuItem>
@@ -342,7 +337,7 @@ function NavBar() {
   return (
     <React.Fragment key={"right"}>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar color="#5F9EA0">
+        <AppBar color="secondary">
           <Toolbar>
             {/* <IconButton
             size="large"
@@ -368,7 +363,7 @@ function NavBar() {
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen && toggleDrawer("right", true)}
+                onClick={toggleDrawer("right", true)}
               >
                 <MenuIcon />
               </IconButton>
@@ -379,7 +374,7 @@ function NavBar() {
                 aria-label="show more"
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
-                onClick={handleMobileMenuOpen && toggleDrawer("right", true)}
+                onClick={toggleDrawer("right", true)}
                 color="inherit"
               >
                 <MoreIcon />
