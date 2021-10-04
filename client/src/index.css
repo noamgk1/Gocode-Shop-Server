@@ -141,9 +141,8 @@ table {
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 
 body {
-  margin: 15px;
-  width: 90%;
-  max-width: 1240px;
+  margin: 30px 5px;
+
   font-family: "Roboto", sans-serif;
   background-color: #f6f6f6;
 }
@@ -225,7 +224,6 @@ h4:hover {
 
 @media (max-width: 480px) {
   html {
-    margin: 5px;
     font-size: 14px;
   }
 }
