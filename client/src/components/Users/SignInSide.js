@@ -78,7 +78,7 @@ const StyledBadge = withStyles((theme) => ({
 const SignInSide = () => {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
-  const [admin, setAdmin] = useContext(UserContext);
+  const [admin, setAdmin] = useContext(AdminContext);
   const history = useHistory();
   const [state, setState] = React.useState({
     left: false,
