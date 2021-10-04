@@ -1,30 +1,17 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useContext } from "react";
 import { CartContext } from "../Context/CartContext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
-import { makeStyles } from "@material-ui/core/styles";
 import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
 import { useHistory } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -71,17 +58,18 @@ export default function Cart() {
         <Avatar sx={{ m: 1, bgcolor: "primary" }}>
           <ShoppingCartIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography sx={{ textAlign: "center" }} component="h1" variant="h5">
           Dear customers, the website is not yet used ...
         </Typography>
       </Grid>
       <Grid
         container
         spacing={3}
+        direction="row"
         justifyContent="center"
         alignItems="flex-start"
       >
-        <Grid item xs={8} spacing={1}>
+        <Grid item xs={12} md={8} spacing={1}>
           <Box
             sx={{
               display: "flex",
@@ -95,84 +83,89 @@ export default function Cart() {
           </Box>
           <Divider />
           <br />
-          <Box>
-            {cartList.length === 0 && (
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <br />
-                <Typography component="h1" variant="h6">
-                  Your Cart Is Empty
-                </Typography>
-              </Grid>
-            )}
-            {cartList.map((p) => (
-              <div>
-                <Paper
-                  sx={{ p: 2, margin: "auto", maxWidth: 600, flexGrow: 1 }}
-                  key={p._id}
+
+          {cartList.length === 0 && (
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <br />
+              <Typography component="h1" variant="h6">
+                Your Cart Is Empty
+              </Typography>
+            </Grid>
+          )}
+          {cartList.map((p) => (
+            <>
+              <Paper sx={{ p: 2, margin: "auto", maxWidth: 700 }} key={p._id}>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={1}
                 >
-                  <Grid container spacing={2}>
-                    <Grid item>
-                      <ButtonBase sx={{ width: 70, height: 70 }}>
-                        <Img alt={p.title} src={p.image} />
-                      </ButtonBase>
+                  <Grid item md={4} xs={2}>
+                    <ButtonBase sx={{ width: 70, height: 70 }}>
+                      <Img alt={p.title} src={p.image} />
+                    </ButtonBase>
+                  </Grid>
+                  <Grid item md={8} xs={9} sm container>
+                    <Grid item xs container direction="column" spacing={2}>
+                      <Grid item xs>
+                        <Typography
+                          gutterBottom
+                          variant="subtitle1"
+                          component="div"
+                        >
+                          {p.title.slice(0, 20)}
+                        </Typography>
+                        {/* <Typography variant="body2" gutterBottom>
+                          {p.price + " $"}
+                        </Typography> */}
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm container>
-                      <Grid item xs container direction="column" spacing={2}>
-                        <Grid item xs>
+                    <Grid
+                      item
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Typography variant="subtitle1" component="div">
+                        <IconButton onClick={() => onAdd(p)}>
+                          <AddBoxIcon />
+                        </IconButton>
+                        <>{p.qty}</>
+                        <IconButton onClick={() => onRemove(p)}>
+                          <IndeterminateCheckBoxIcon />
+                        </IconButton>
+                        <Grid item justifyContent="center">
                           <Typography
-                            gutterBottom
-                            variant="subtitle1"
-                            component="div"
+                            sx={{ textAlign: "center" }}
+                            variant="body1"
                           >
-                            {p.title.slice(0, 20)}
-                          </Typography>
-                          <Typography variant="body2" gutterBottom>
-                            {p.price + " $"}
+                            {p.price * p.qty + " $"}
                           </Typography>
                         </Grid>
-                      </Grid>
-                      <Grid
-                        item
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <Typography variant="subtitle1" component="div">
-                          <IconButton onClick={() => onAdd(p)}>
-                            <AddBoxIcon />
-                          </IconButton>
-                          <>{p.qty}</>
-                          <IconButton onClick={() => onRemove(p)}>
-                            <IndeterminateCheckBoxIcon />
-                          </IconButton>
-                          <Grid item justifyContent="center">
-                            <Typography variant="body2">
-                              {p.price * p.qty + " $"}
-                            </Typography>
-                          </Grid>
-                        </Typography>
-                      </Grid>
+                      </Typography>
                     </Grid>
                   </Grid>
-                </Paper>
-                <br />
-              </div>
-            ))}
-          </Box>
+                </Grid>
+              </Paper>
+              <br />
+            </>
+          ))}
         </Grid>
-        <Grid item xs="auto" md={4}>
+        <Grid item xs={10} md={4}>
           <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
+          // sx={{
+          //   display: "flex",
+          //   flexDirection: "column",
 
-              alignItems: "center",
-            }}
+          //   alignItems: "center",
+          // }}
           >
             <Grid>
               <Typography component="h1" variant="h5">
@@ -182,32 +175,24 @@ export default function Cart() {
           </Box>
           <Divider />
           <br />
-          <Grid
-            container
-            spacing={2}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-start"
-          >
-            <Grid item xs={6} md={8}>
+          <Grid container spacing={2} direction="row">
+            <Grid item xs={6} md={6}>
               <Typography variant="subtitle1">Interim amount:</Typography>
             </Grid>
-            <Grid item xs={6} md={4}>
-              <Typography variant="subtitle1">{itemsPrice} $</Typography>
+            <Grid item xs={6} md={6}>
+              <Typography sx={{ textAlign: "right" }} variant="subtitle1">
+                {itemsPrice} $
+              </Typography>
             </Grid>
           </Grid>
-          <Grid
-            container
-            spacing={2}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-start"
-          >
-            <Grid item xs={6} md={8}>
+          <Grid container spacing={2} direction="row">
+            <Grid item xs={6} md={6}>
               <Typography variant="subtitle1">Shipping:</Typography>
             </Grid>
-            <Grid item xs={6} md={4}>
-              <Typography variant="subtitle1">Free</Typography>
+            <Grid item xs={6} md={6}>
+              <Typography sx={{ textAlign: "right" }} variant="subtitle1">
+                Free
+              </Typography>
             </Grid>
           </Grid>
           <br />
@@ -221,21 +206,23 @@ export default function Cart() {
             justifyContent="space-between"
             alignItems="flex-start"
           >
-            <Grid item xs={6} md={8}>
+            <Grid item xs={6} md={6}>
               <Typography variant="h6">Total:</Typography>
             </Grid>
-            <Grid item xs={6} md={4}>
-              <Typography variant="subtitle1">{itemsPrice} $</Typography>
+            <Grid item xs={6} md={6}>
+              <Typography sx={{ textAlign: "right" }} variant="subtitle1">
+                {itemsPrice} $
+              </Typography>
             </Grid>
           </Grid>
           <br />
           {!user.user && (
             <>
-              <Grid item xs>
-                <Typography variant="subtitle1">
-                  You must be logged in to place an order
-                </Typography>
-              </Grid>
+              <br />
+              <Typography sx={{ textAlign: "center" }} variant="subtitle1">
+                You must be logged in to place an order
+              </Typography>
+              <br />
               <Button
                 onClick={loginPage}
                 type="submit"

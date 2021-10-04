@@ -141,7 +141,7 @@ table {
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 
 body {
-  margin: 30px auto;
+  margin: 15px;
   width: 90%;
   max-width: 1240px;
   font-family: "Roboto", sans-serif;
@@ -225,31 +225,32 @@ h4:hover {
 
 @media (max-width: 480px) {
   html {
-    font-size: 12px;
+    margin: 5px;
+    font-size: 14px;
   }
 }
 
 @media (min-width: 480px) {
   html {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
 @media (min-width: 992px) {
   html {
-    font-size: 15px;
+    font-size: 17px;
   }
 }
 
 @media (min-width: 1200px) {
   html {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 h1 {
