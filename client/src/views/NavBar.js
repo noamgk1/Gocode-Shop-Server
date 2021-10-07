@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import Menu from "@mui/material/Menu";
+import ViewListIcon from "@mui/icons-material/ViewList";
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Divider from "@mui/material/Divider";
@@ -24,12 +24,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LoginIcon from "@mui/icons-material/Login";
 import { useHistory } from "react-router-dom";
-
-// import Link from "@material-ui/core/Link";
+import LogoutIcon from "@mui/icons-material/Logout";
+import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 // import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-// import TextField from "@material-ui/core/TextField";
+import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { makeStyles } from "@material-ui/core/styles";
@@ -72,8 +72,8 @@ const useStyles = makeStyles((theme) => ({
 
 function NavBar() {
   const classes = useStyles();
-  const [user] = useContext(UserContext);
-  const [admin] = useContext(AdminContext);
+  const [user, setUser] = useContext(UserContext);
+  const [admin, setAdmin] = useContext(AdminContext);
   const history = useHistory();
   const [state, setState] = React.useState({
     right: false,
@@ -97,6 +97,47 @@ function NavBar() {
     return history.push("/cart");
   };
 
+  async function logoutPage(e) {
+    setState({ ...state, right: false });
+    e.preventDefault();
+
+    const url = "/api/users/logout";
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const user1 = await axios.post(url, user, options);
+
+      if (user1.status === 200) {
+        localStorage.removeItem("user");
+
+        setUser({
+          accessToken: null,
+          user: null,
+        });
+        setAdmin(false);
+        return history.go("/");
+      }
+    } catch (err) {
+      // throw Error(err);
+      console.log(err);
+    }
+  }
+
+  const ordersPage = () => {
+    setState({ ...state, right: false });
+
+    return history.push("/orders");
+  };
+
+  const contactPage = () => {
+    setState({ ...state, right: false });
+
+    return history.push("/contact");
+  };
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -110,140 +151,8 @@ function NavBar() {
   };
 
   const menuId = "primary-search-account-menu";
-  // const renderMenu = (
-  //   <Grid container component="main" className={classes.root}>
-  //     <Grid component={Paper} elevation={6} square>
-  //       <div className={classes.paper}>
-  //         <Avatar className={classes.avatar}>
-  //           <PersonPinIcon />
-  //         </Avatar>
-  //         <Typography component="h1" variant="h5">
-  //           Welcome {user.user}
-  //         </Typography>
-
-  //         <MenuList>
-  //           <MenuItem onClick={controlPage}>
-  //             <ListItemIcon>
-  //               <SettingsIcon fontSize="small" />
-  //             </ListItemIcon>
-  //             <ListItemText inset>Control</ListItemText>
-  //           </MenuItem>
-  //           <Divider />
-
-  //           <MenuItem onClick={loginPage}>
-  //             <LoginIcon fontSize="small" />
-
-  //             <ListItemText inset>Login</ListItemText>
-  //           </MenuItem>
-  //         </MenuList>
-
-  //         {/* <MenuItem>
-  //         {!user.user && <SignInSide />}
-  //         {user.user && <Logout />}
-  //       </MenuItem> */}
-  //         <Divider />
-  //         <Button
-  //           type="submit"
-  //           fullWidth
-  //           variant="contained"
-  //           color="primary"
-  //           className={classes.submit}
-  //         >
-  //           Sign In
-  //         </Button>
-  //         <Grid container>
-  //           <Grid item xs>
-  //             <Link href="#" variant="body2">
-  //               Forgot password?
-  //             </Link>
-  //           </Grid>
-  //           <Grid item>
-  //             <Link href="/signUp" variant="body2">
-  //               {"Don't have an account? Sign Up"}
-  //             </Link>
-  //           </Grid>
-  //         </Grid>
-  //         <Box mt={5}></Box>
-  //       </div>
-  //     </Grid>
-  //   </Grid>
-
-  //   // <Paper sx={{ width: 200 }}>
-  //   //   <MenuList dense>
-  //   //     <Menu
-  //   //       anchorEl={anchorEl}
-  //   //       anchorOrigin={{
-  //   //         vertical: "top",
-  //   //         horizontal: "right",
-  //   //       }}
-  //   //       id={menuId}
-  //   //       keepMounted
-  //   //       transformOrigin={{
-  //   //         vertical: "top",
-  //   //         horizontal: "right",
-  //   //       }}
-  //   //       open={isMenuOpen}
-  //   //       onClose={handleMenuClose}
-  //   //     >
-  //   //       <MenuItem onClick={controlPage}>
-  //   //         <ListItemIcon>
-  //   //           <SettingsIcon fontSize="small" />
-  //   //         </ListItemIcon>
-  //   //         <ListItemText inset>Control</ListItemText>
-  //   //       </MenuItem>
-  //   //       <Divider />
-
-  //   //       <MenuItem onClick={loginPage}>
-  //   //         <ListItemIcon>
-  //   //           <LoginIcon fontSize="small" />
-  //   //         </ListItemIcon>
-  //   //         <ListItemText inset>Login</ListItemText>
-  //   //       </MenuItem>
-  //   //     </Menu>
-  //   //   </MenuList>
-  //   // </Paper>
-  // );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
-  // const renderMobileMenu = (
-  //   <Paper sx={{ width: 320 }}>
-  //     <MenuList dense>
-  //       <Menu
-  //         anchorEl={mobileMoreAnchorEl}
-  //         anchorOrigin={{
-  //           vertical: "top",
-  //           horizontal: "right",
-  //         }}
-  //         id={mobileMenuId}
-  //         keepMounted
-  //         transformOrigin={{
-  //           vertical: "top",
-  //           horizontal: "right",
-  //         }}
-  //         open={isMobileMenuOpen}
-  //         onClose={handleMobileMenuClose}
-  //       >
-  //         <MenuItem>
-  //           {!user.user && <SignInSide />}
-  //           {user.user && <Logout />}
-  //         </MenuItem>
-  //         <Divider />
-  //         <MenuItem onClick={handleProfileMenuOpen}>
-  //           <IconButton
-  //             size="large"
-  //             aria-label="account of current user"
-  //             aria-controls="primary-search-account-menu"
-  //             aria-haspopup="true"
-  //             color="inherit"
-  //           >
-  //             <MenuIcon />
-  //           </IconButton>
-  //           <h6>More</h6>
-  //         </MenuItem>
-  //       </Menu>
-  //     </MenuList>
-  //   </Paper>
-  // );
 
   const renderMobileMenu = (
     <Grid container component="main" className={classes.root}>
@@ -259,9 +168,10 @@ function NavBar() {
             <MenuList>
               {user.user && (
                 <>
-                  <MenuItem>
-                    <Logout fontSize="small" />
-                    <ListItemText inset></ListItemText>
+                  <MenuItem onClick={(e) => logoutPage(e)}>
+                    <LogoutIcon fontSize="small" />
+
+                    <ListItemText inset>Logout</ListItemText>
                   </MenuItem>
                   <Divider />
                 </>
@@ -294,18 +204,23 @@ function NavBar() {
                 <ListItemText inset>Cart</ListItemText>
               </MenuItem>
               <Divider />
-              <MenuItem onClick={controlPage}>
+              {user.user && (
+                <>
+                  <MenuItem onClick={ordersPage}>
+                    <ListItemIcon>
+                      <ViewListIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText inset>Orders</ListItemText>
+                  </MenuItem>
+                  <Divider />
+                </>
+              )}
+
+              <MenuItem onClick={contactPage}>
                 <ListItemIcon>
-                  <SettingsIcon fontSize="small" />
+                  <EmojiPeopleIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText inset>About</ListItemText>
-              </MenuItem>
-              <Divider />
-              <MenuItem onClick={controlPage}>
-                <ListItemIcon>
-                  <SettingsIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText inset>Contact</ListItemText>
+                <ListItemText inset>Contact Us</ListItemText>
               </MenuItem>
               <Divider />
             </MenuList>

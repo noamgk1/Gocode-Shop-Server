@@ -4,6 +4,7 @@ import Home from "./views/Home";
 import ProductDetails from "./views/ProductDetails";
 import AdminControl from "./Admin/AdminControl";
 import SignUp from "./components/Users/SignUp";
+import Logout from "./components/Users/Logout";
 import SigninPage from "./components/Users/SigninPage";
 import NavBar from "./views/NavBar";
 import UserContextProvider from "./Context/UserContext";
@@ -16,6 +17,8 @@ import Container from "@material-ui/core/Container";
 import EditProducts from "./Admin/EditProducts";
 import EditCategories from "./Admin/EditCategories";
 import Cart from "./views/Cart";
+import Checkout from "./views/Checkout";
+import Orders from "./components/Users/Orders";
 
 const theme = createTheme({
   text: {
@@ -57,9 +60,13 @@ function App() {
                     path="/control/edit-categories"
                     component={EditCategories}
                   />
+                  <Route exact path="/checkout" component={Checkout} />
                   <Route exact path="/cart" component={Cart} />
+                  <Route exact path="/orders" component={Orders} />
+                  <Route exact path="/contact" component={Orders} />
                   <Route exact path="/login" component={SigninPage} />
                   <Route exact path="/signUp" component={SignUp} />
+                  <Route exact path="/logout" component={Logout} />
                   <Route exact path="/" component={Home} />
                   <Route
                     path="/*"

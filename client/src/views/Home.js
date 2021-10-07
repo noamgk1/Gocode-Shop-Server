@@ -37,12 +37,12 @@ function Home() {
       .then((json) => {
         setProducts(json);
         setProductsFilterPrice(json);
+        setPreLoading(false);
       });
     fetch("/api/categories")
       .then((res) => res.json())
       .then((json) => {
         setCategories(json);
-        setPreLoading(false);
       });
   }, []);
 

@@ -57,7 +57,7 @@ const Product = ({ onChoose, id, image, title, price, category, key }) => {
   const { onAdd, onRemove, qtyId } = useContext(CartContext);
   const qty = qtyId(id);
   return (
-    <Fade top cascade>
+    <Fade>
       <Box
         sx={{
           width: {

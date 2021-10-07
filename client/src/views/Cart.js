@@ -41,7 +41,7 @@ export default function Cart() {
   };
 
   const paymentPage = () => {
-    return history.push("payment");
+    return history.push("/checkout");
   };
 
   return (
@@ -216,7 +216,7 @@ export default function Cart() {
             </Grid>
           </Grid>
           <br />
-          {!user.user && (
+          {cartList.length > 0 && !user.user && (
             <>
               <br />
               <Typography sx={{ textAlign: "center" }} variant="subtitle1">
@@ -233,7 +233,7 @@ export default function Cart() {
               </Button>
             </>
           )}
-          {user.user && (
+          {cartList.length > 0 && user.user && (
             <Button
               onClick={paymentPage}
               type="submit"
