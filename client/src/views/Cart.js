@@ -45,7 +45,10 @@ export default function Cart() {
   };
 
   return (
-    <Box>
+    <Paper
+      variant="outlined"
+      sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+    >
       <Grid
         container
         marginTop={4}
@@ -245,6 +248,6 @@ export default function Cart() {
           )}
         </Grid>
       </Grid>
-    </Box>
+    </Paper>
   );
 }
