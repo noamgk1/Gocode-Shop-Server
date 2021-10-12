@@ -57,11 +57,15 @@ export default function AdminControl() {
   }
 
   const editP = () => {
-    return history.push("/control/edit-products");
+    return history.go("/control/edit-products");
+  };
+
+  const editO = () => {
+    return history.go("/control/show-orders");
   };
 
   const editC = () => {
-    return history.push("/control/edit-categories");
+    return history.go("/control/edit-categories");
   };
 
   return (
@@ -109,8 +113,9 @@ export default function AdminControl() {
               color="primary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={editO}
             >
-              Edit Users
+              Show Order
             </Button>
           </Box>
         </Box>

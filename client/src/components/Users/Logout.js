@@ -19,7 +19,7 @@ const StyledBadge = withStyles((theme) => ({
 
 function Logout() {
   const [user, setUser] = useContext(UserContext);
-  const [admin, setAdmin] = useContext(AdminContext);
+  const [setAdmin] = useContext(AdminContext);
   const history = useHistory();
   async function logout(e) {
     e.preventDefault();

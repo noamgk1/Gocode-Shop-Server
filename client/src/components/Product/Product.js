@@ -39,13 +39,6 @@ const Product = ({ onChoose, id, image, title, price, category, key }) => {
     return history.push(`/products/${id}`);
   };
 
-  // const titleLength =
-  //   title.length > 25
-  //     ? title.slice(0, 27)
-  //     : title.length < 20
-  //     ? title + "-My Shop"
-  //     : title;
-
   const cart = {
     id: id,
     title: title,

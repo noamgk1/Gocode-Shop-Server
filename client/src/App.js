@@ -19,6 +19,7 @@ import EditCategories from "./Admin/EditCategories";
 import Cart from "./views/Cart";
 import Checkout from "./views/Checkout";
 import Orders from "./components/Users/Orders";
+import ShowOrders from "./Admin/ShowOrders";
 
 const theme = createTheme({
   text: {
@@ -59,6 +60,11 @@ function App() {
                     exact
                     path="/control/edit-categories"
                     component={EditCategories}
+                  />
+                  <Route
+                    exact
+                    path="/control/show-orders"
+                    component={ShowOrders}
                   />
                   <Route exact path="/checkout" component={Checkout} />
                   <Route exact path="/cart" component={Cart} />

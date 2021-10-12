@@ -55,17 +55,6 @@ export default function ProductDetails() {
       });
   }, [id]);
 
-  // useEffect(() => {
-  //   setPreLoading(true);
-  //   fetch(`/api/products/${id}`)
-  //     .then((res) => res.json())
-  //     .catch((error) => console.log(error))
-  //     .then((json) => {
-  //       setProduct(json);
-  //       setPreLoading(false);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, [id]);
   const qty = qtyId(id);
   const classes = useStyles();
 

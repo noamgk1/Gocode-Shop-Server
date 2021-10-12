@@ -268,10 +268,13 @@ function NavBar() {
               <NavLink to="/">My Shop</NavLink>
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <SideCart />
+
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               {!user.user && <SignInSide />}
               {user.user && <Logout />}
+            </Box>
+            <SideCart />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <IconButton
                 size="large"
                 edge="end"
@@ -283,6 +286,7 @@ function NavBar() {
                 <MenuIcon />
               </IconButton>
             </Box>
+
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"

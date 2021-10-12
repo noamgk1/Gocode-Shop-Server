@@ -24,7 +24,7 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    width: 270,
+    width: 300,
     flexDirection: "column",
     alignItems: "center",
     margin: theme.spacing(4, 4),

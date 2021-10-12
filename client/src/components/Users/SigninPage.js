@@ -64,6 +64,7 @@ export default function SignIn() {
       setUser({
         accessToken: user.data.token,
         user: user.data.user,
+        id: user.data.id,
       });
 
       if (user.data.admin) {
@@ -71,7 +72,7 @@ export default function SignIn() {
         history.push("/control");
       } else {
         setAdmin(false);
-        history.push("/");
+        history.goBack();
       }
     }
   }

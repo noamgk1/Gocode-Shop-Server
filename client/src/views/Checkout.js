@@ -1,23 +1,20 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AddressForm from "./AddressForm";
+import ThankYou from "./ThankYou";
 import Review from "./Review";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../Context/UserContext";
 import { useContext } from "react";
-
 const steps = ["Shipping address", "Review your order"];
 
 function getStepContent(step) {
@@ -31,7 +28,23 @@ function getStepContent(step) {
   }
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  text: {
+    primary: "#fff",
+  },
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: "#126264",
+      contrastText: "#fff",
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: "##5f9ea0",
+      dark: "#b2102f",
+    },
+  },
+});
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -40,6 +53,7 @@ export default function Checkout() {
   if (!user.user) {
     history.push("/");
   }
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -69,16 +83,7 @@ export default function Checkout() {
           </Stepper>
           <React.Fragment>
             {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
-              </React.Fragment>
+              <ThankYou />
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}

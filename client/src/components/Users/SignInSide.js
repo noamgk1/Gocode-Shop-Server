@@ -118,6 +118,7 @@ const SignInSide = () => {
       setUser({
         accessToken: user.data.token,
         user: user.data.user,
+        id: user.data.id,
       });
       setState({
         left: false,
@@ -127,7 +128,7 @@ const SignInSide = () => {
         history.push("/control");
       } else {
         setAdmin(false);
-        history.push("/");
+        history.goBack();
       }
     }
   }

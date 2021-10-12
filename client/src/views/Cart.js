@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { useContext } from "react";
 import { CartContext } from "../Context/CartContext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -27,6 +26,23 @@ const Img = styled("img")({
   maxHeight: "100%",
 });
 
+const theme = createTheme({
+  text: {
+    primary: "#fff",
+  },
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: "#126264",
+      contrastText: "#fff",
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: "##5f9ea0",
+      dark: "#b2102f",
+    },
+  },
+});
 export default function Cart() {
   const { cartList } = useContext(CartContext);
   const { onRemove, onAdd } = useContext(CartContext);
@@ -45,209 +61,208 @@ export default function Cart() {
   };
 
   return (
-    <Paper
-      variant="outlined"
-      sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-    >
-      <Grid
-        container
-        marginTop={4}
-        marginBottom={6}
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+    <ThemeProvider theme={theme}>
+      <Paper
+        variant="outlined"
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
       >
-        {" "}
-        <Avatar sx={{ m: 1, bgcolor: "primary" }}>
-          <ShoppingCartIcon />
-        </Avatar>
-        <Typography sx={{ textAlign: "center" }} component="h1" variant="h5">
-          Dear customers, the website is not yet used ...
-        </Typography>
-      </Grid>
-      <Grid
-        container
-        spacing={3}
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        <Grid item xs={12} md={8} spacing={1}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography component="h1" variant="h5">
-              My Cart
-            </Typography>
-          </Box>
-          <Divider />
-          <br />
-
-          {cartList.length === 0 && (
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
+        <Grid
+          container
+          marginTop={4}
+          marginBottom={6}
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {" "}
+          <Avatar sx={{ m: 1, bgcolor: "primary" }}>
+            <ShoppingCartIcon />
+          </Avatar>
+          <Typography sx={{ textAlign: "center" }} component="h1" variant="h5">
+            Dear customers, the website is not yet used ...
+          </Typography>
+        </Grid>
+        <Grid
+          container
+          spacing={3}
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+        >
+          <Grid item xs={12} md={8} spacing={1}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              <br />
-              <Typography component="h1" variant="h6">
-                Your Cart Is Empty
+              <Typography component="h1" variant="h5">
+                My Cart
               </Typography>
-            </Grid>
-          )}
-          {cartList.map((p) => (
-            <>
-              <Paper sx={{ p: 2, margin: "auto", maxWidth: 700 }} key={p._id}>
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  spacing={1}
-                >
-                  <Grid item md={4} xs={2}>
-                    <ButtonBase sx={{ width: 70, height: 70 }}>
-                      <Img alt={p.title} src={p.image} />
-                    </ButtonBase>
-                  </Grid>
-                  <Grid item md={8} xs={9} sm container>
-                    <Grid item xs container direction="column" spacing={2}>
-                      <Grid item xs>
-                        <Typography
-                          gutterBottom
-                          variant="subtitle1"
-                          component="div"
-                        >
-                          {p.title.slice(0, 20)}
-                        </Typography>
-                        {/* <Typography variant="body2" gutterBottom>
-                          {p.price + " $"}
-                        </Typography> */}
-                      </Grid>
+            </Box>
+            <Divider />
+            <br />
+
+            {cartList.length === 0 && (
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <br />
+                <Typography component="h1" variant="h6">
+                  Your Cart Is Empty
+                </Typography>
+              </Grid>
+            )}
+            {cartList.map((p) => (
+              <>
+                <Paper sx={{ p: 2, margin: "auto", maxWidth: 700 }} key={p._id}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <Grid item md={4} xs={2}>
+                      <ButtonBase sx={{ width: 70, height: 70 }}>
+                        <Img alt={p.title} src={p.image} />
+                      </ButtonBase>
                     </Grid>
-                    <Grid
-                      item
-                      direction="column"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Typography variant="subtitle1" component="div">
-                        <IconButton onClick={() => onAdd(p)}>
-                          <AddBoxIcon />
-                        </IconButton>
-                        <>{p.qty}</>
-                        <IconButton onClick={() => onRemove(p)}>
-                          <IndeterminateCheckBoxIcon />
-                        </IconButton>
-                        <Grid item justifyContent="center">
+                    <Grid item md={8} xs={9} sm container>
+                      <Grid item xs container direction="column" spacing={2}>
+                        <Grid item xs>
                           <Typography
-                            sx={{ textAlign: "center" }}
-                            variant="body1"
+                            gutterBottom
+                            variant="subtitle1"
+                            component="div"
                           >
-                            {p.price * p.qty + " $"}
+                            {p.title.slice(0, 20)}
                           </Typography>
                         </Grid>
-                      </Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Typography variant="subtitle1" component="div">
+                          <IconButton onClick={() => onAdd(p)}>
+                            <AddBoxIcon />
+                          </IconButton>
+                          <>{p.qty}</>
+                          <IconButton onClick={() => onRemove(p)}>
+                            <IndeterminateCheckBoxIcon />
+                          </IconButton>
+                          <Grid item justifyContent="center">
+                            <Typography
+                              sx={{ textAlign: "center" }}
+                              variant="body1"
+                            >
+                              {"$" + p.price * p.qty}
+                            </Typography>
+                          </Grid>
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-              </Paper>
-              <br />
-            </>
-          ))}
-        </Grid>
-        <Grid item xs={10} md={4}>
-          <Box
-          // sx={{
-          //   display: "flex",
-          //   flexDirection: "column",
+                </Paper>
+                <br />
+              </>
+            ))}
+          </Grid>
+          <Grid item xs={10} md={4}>
+            <Box
+            // sx={{
+            //   display: "flex",
+            //   flexDirection: "column",
 
-          //   alignItems: "center",
-          // }}
-          >
-            <Grid>
-              <Typography component="h1" variant="h5">
-                Order summary
-              </Typography>
+            //   alignItems: "center",
+            // }}
+            >
+              <Grid>
+                <Typography component="h1" variant="h5">
+                  Order summary
+                </Typography>
+              </Grid>
+            </Box>
+            <Divider />
+            <br />
+            <Grid container spacing={2} direction="row">
+              <Grid item xs={6} md={6}>
+                <Typography variant="subtitle1">Interim amount:</Typography>
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <Typography sx={{ textAlign: "right" }} variant="subtitle1">
+                  {itemsPrice} $
+                </Typography>
+              </Grid>
             </Grid>
-          </Box>
-          <Divider />
-          <br />
-          <Grid container spacing={2} direction="row">
-            <Grid item xs={6} md={6}>
-              <Typography variant="subtitle1">Interim amount:</Typography>
+            <Grid container spacing={2} direction="row">
+              <Grid item xs={6} md={6}>
+                <Typography variant="subtitle1">Shipping:</Typography>
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <Typography sx={{ textAlign: "right" }} variant="subtitle1">
+                  Free
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={6} md={6}>
-              <Typography sx={{ textAlign: "right" }} variant="subtitle1">
-                {itemsPrice} $
-              </Typography>
+            <br />
+            <Divider />
+            <Divider />
+            <br />
+            <Grid
+              container
+              spacing={2}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-start"
+            >
+              <Grid item xs={6} md={6}>
+                <Typography variant="h6">Total:</Typography>
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <Typography sx={{ textAlign: "right" }} variant="subtitle1">
+                  {itemsPrice} $
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={2} direction="row">
-            <Grid item xs={6} md={6}>
-              <Typography variant="subtitle1">Shipping:</Typography>
-            </Grid>
-            <Grid item xs={6} md={6}>
-              <Typography sx={{ textAlign: "right" }} variant="subtitle1">
-                Free
-              </Typography>
-            </Grid>
-          </Grid>
-          <br />
-          <Divider />
-          <Divider />
-          <br />
-          <Grid
-            container
-            spacing={2}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-start"
-          >
-            <Grid item xs={6} md={6}>
-              <Typography variant="h6">Total:</Typography>
-            </Grid>
-            <Grid item xs={6} md={6}>
-              <Typography sx={{ textAlign: "right" }} variant="subtitle1">
-                {itemsPrice} $
-              </Typography>
-            </Grid>
-          </Grid>
-          <br />
-          {cartList.length > 0 && !user.user && (
-            <>
-              <br />
-              <Typography sx={{ textAlign: "center" }} variant="subtitle1">
-                You must be logged in to place an order
-              </Typography>
-              <br />
+            <br />
+            {cartList.length > 0 && !user.user && (
+              <>
+                <br />
+                <Typography sx={{ textAlign: "center" }} variant="subtitle1">
+                  You must be logged in to place an order
+                </Typography>
+                <br />
+                <Button
+                  onClick={loginPage}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                >
+                  Login | Register
+                </Button>
+              </>
+            )}
+            {cartList.length > 0 && user.user && (
               <Button
-                onClick={loginPage}
+                onClick={paymentPage}
                 type="submit"
                 fullWidth
                 variant="contained"
               >
-                Login | Register
+                Payment
               </Button>
-            </>
-          )}
-          {cartList.length > 0 && user.user && (
-            <Button
-              onClick={paymentPage}
-              type="submit"
-              fullWidth
-              variant="contained"
-            >
-              Payment
-            </Button>
-          )}
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </ThemeProvider>
   );
 }
