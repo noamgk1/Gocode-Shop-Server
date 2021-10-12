@@ -6,8 +6,9 @@ const Order = require("../models/order");
 module.exports = {
   getAllOrders: (req, res) => {
     Order.find()
-      .populate("User")
-      .populate("productid")
+      .populate("products.id")
+      // .populate("userID")
+      .exec()
       .then((order) => {
         res.status(200);
         res.send(order);
@@ -18,32 +19,51 @@ module.exports = {
         });
       });
   },
-  createOrder: (req, res) => {
-    const {
-      user,
-      products,
-      shipStreet,
-      shipHome,
-      shipCity,
-      status,
-      totalAmount,
-    } = req.body;
-    User.findById(user)
+  getAllOrdersUser: (req, res) => {
+    const { id } = req.body;
+    User.findById(id)
       .then((a) => {
         if (!a) {
           return res.status(404).json({
-            message: "Category not found",
+            message: "User not found",
+          });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
+
+    Order.find({ userID: id })
+      .populate("products.id")
+      // .populate("userID")
+      .exec()
+      .then((order) => {
+        res.status(200);
+        res.send(order);
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error,
+        });
+      });
+  },
+  postOrder: (req, res) => {
+    const { user, cartList, itemsPrice, userDetail } = req.body;
+    User.findById(user.id)
+      .then((a) => {
+        if (!a) {
+          return res.status(404).json({
+            message: "User not found",
           });
         }
         const order = new Order({
           _id: new mongoose.Types.ObjectId(),
-          user,
-          products,
-          shipStreet,
-          shipHome,
-          shipCity,
-          status,
-          totalAmount,
+          userID: user.id,
+          products: cartList,
+          userDetail,
+          totalAmount: itemsPrice,
         });
 
         order.save();
@@ -60,7 +80,7 @@ module.exports = {
 
     Order.findById(orderId)
       .populate("User")
-      .populate("productid")
+      // .populate("productid")
       .then((order) => {
         res.status(200).json({
           order,

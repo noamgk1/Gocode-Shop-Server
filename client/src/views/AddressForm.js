@@ -2,10 +2,17 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { useState } from "react";
 
 export default function AddressForm() {
+  const [control, setControl] = useState();
+  function inputChangedHandler(e) {
+    setControl({ ...control, [e.target.id]: e.target.value });
+    localStorage.setItem("userDetail", JSON.stringify(control));
+  }
+
+  const userDetail = (e) => {};
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -21,6 +28,7 @@ export default function AddressForm() {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -32,27 +40,41 @@ export default function AddressForm() {
             fullWidth
             autoComplete="family-name"
             variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
-        <Grid item xs={12}>
+
+        <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="address1"
-            name="address1"
-            label="Address line 1"
+            id="street"
+            name="street"
+            label="Street"
             fullWidth
-            autoComplete="shipping address-line1"
             variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
           <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
+            required
+            id="number"
+            name="number"
+            label="Home Number"
             fullWidth
-            autoComplete="shipping address-line2"
             variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="apartment"
+            name="apartment"
+            label="Apartment Number"
+            fullWidth
+            required
+            variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -64,17 +86,10 @@ export default function AddressForm() {
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="state"
-            name="state"
-            label="State/Province/Region"
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             required
@@ -84,6 +99,7 @@ export default function AddressForm() {
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -95,14 +111,7 @@ export default function AddressForm() {
             fullWidth
             autoComplete="shipping country"
             variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox color="secondary" name="saveAddress" value="yes" />
-            }
-            label="Use this address for payment details"
+            onChange={(e) => inputChangedHandler(e)}
           />
         </Grid>
       </Grid>

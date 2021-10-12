@@ -2,7 +2,7 @@ import React from "react";
 import MaterialTable from "material-table";
 import { forwardRef } from "react";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../../Context/UserContext";
+import { UserContext } from "../Context/UserContext";
 import { useContext, useEffect, useState } from "react";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -60,7 +60,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-function Orders() {
+function ShowOrders() {
   const history = useHistory();
   const [user] = useContext(UserContext);
   const [data, setData] = useState([]);
@@ -69,15 +69,7 @@ function Orders() {
   }
 
   useEffect(() => {
-    fetch("/api/orders/user", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.accessToken,
-      },
-      body: JSON.stringify(user),
-    })
+    fetch("/api/orders")
       .then((res) => res.json())
       .then((json) => {
         setData(json);
@@ -166,4 +158,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default ShowOrders;

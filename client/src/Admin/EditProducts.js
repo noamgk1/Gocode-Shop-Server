@@ -53,11 +53,6 @@ function category(a) {
   return obj;
 }
 
-// function categoryID(arr,object){
-//   let obj=arr.filter((b)=> b.name===object);
-//   console.log(obj);
-//   return obj;
-// }
 const EditProducts = () => {
   const history = useHistory();
   const [data, setData] = useState([]);

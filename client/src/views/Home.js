@@ -43,7 +43,8 @@ function Home() {
       .then((res) => res.json())
       .then((json) => {
         setCategories(json);
-      });
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   //set min and max from all products
@@ -53,7 +54,6 @@ function Home() {
 
   //choose from query
   const onChooseCategory = (e) => {
-    console.log(e);
     const search = e;
     setCategoryNow(search);
     setPreLoading(true);
@@ -110,46 +110,8 @@ function Home() {
         }, 1000);
       });
     }
-    console.log(categoryNow);
   };
 
-  // const onChoose = (c) => {
-  //   console.log(c.target.value);
-  //   if (c.target.value === "All Products") {
-  //     setProducts(firstProducts);
-  //     setProductsFilterPrice(firstProducts);
-  //   } else {
-  //     setProducts(
-  //       firstProducts.filter((choose) => choose.category === c.target.value)
-  //     );
-  //     setProductsFilterPrice(
-  //       firstProducts.filter((choose) => choose.category === c.target.value)
-  //     );
-  //   }
-  // };
-
-  // const onHandleChange = (event, newValue) => {
-  //   setPreLoading(true);
-  //   console.log("gg", event.target);
-  //   console.log("gg", newValue);
-  //   new Promise((resolve, reject) => {
-  //     setTimeout(() => {
-  //       fetch(`/api/products/?min=${newValue[0]}`, {
-  //         method: "GET",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //         },
-  //       })
-  //         .then((res) => res.json())
-  //         .then((product) => {
-  //           setProducts(product);
-  //           setPreLoading(false);
-  //         });
-  //       resolve();
-  //     }, 1000);
-  //   });
-  // };
   const onHandleChange = (event, newValue) => {
     setProducts(
       productsFilterPrice.filter(
