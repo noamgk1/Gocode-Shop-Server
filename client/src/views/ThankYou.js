@@ -80,7 +80,7 @@ export default function Checkout() {
             </Typography>
             <Typography align="center">
               <Button
-                onClick={() => history.go("/")}
+                onClick={() => history.push("/")}
                 variant="contained"
                 sx={{ mt: 3, ml: 1 }}
               >
