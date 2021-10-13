@@ -73,7 +73,7 @@ function App() {
                   <Route exact path="/login" component={SigninPage} />
                   <Route exact path="/signUp" component={SignUp} />
                   <Route exact path="/logout" component={Logout} />
-                  <Route exact path="/" component={Home} />
+                  <Route path="/" component={Home} />
                   <Route
                     path="/*"
                     component={() => (

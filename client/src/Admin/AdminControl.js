@@ -57,15 +57,15 @@ export default function AdminControl() {
   }
 
   const editP = () => {
-    return history.go("/control/edit-products");
+    return history.push("/control/edit-products");
   };
 
   const editO = () => {
-    return history.go("/control/show-orders");
+    return history.push("/control/show-orders");
   };
 
   const editC = () => {
-    return history.go("/control/edit-categories");
+    return history.push("/control/edit-categories");
   };
 
   return (
