@@ -69,7 +69,7 @@ function ShowOrders() {
   }
 
   useEffect(() => {
-    fetch("/api/orders")
+    fetch("/api/orders/", { method: "GET" })
       .then((res) => res.json())
       .then((json) => {
         setData(json);
