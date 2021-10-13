@@ -69,7 +69,13 @@ function App() {
                   <Route exact path="/checkout" component={Checkout} />
                   <Route exact path="/cart" component={Cart} />
                   <Route exact path="/orders" component={Orders} />
-                  <Route exact path="/contact" component={Orders} />
+                  <Route
+                    exact
+                    path="/contact"
+                    component={() => (
+                      <div align="center">404 Page Not Found</div>
+                    )}
+                  />
                   <Route exact path="/login" component={SigninPage} />
                   <Route exact path="/signUp" component={SignUp} />
                   <Route exact path="/logout" component={Logout} />
