@@ -183,16 +183,20 @@ const SignInSide = () => {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/signUp" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+              {!user.user && (
+                <Grid item>
+                  Don't have an account?
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => history.push("/SignUp")}
+                  >
+                    Sign Up
+                  </Button>
+                </Grid>
+              )}
             </Grid>
             <Box mt={5}>
               <Copyright />

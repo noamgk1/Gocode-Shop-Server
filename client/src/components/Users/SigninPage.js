@@ -118,12 +118,23 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item>
-              <Link to="/SignUp" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+          <Grid>
+            {!user.user && (
+              <Grid>
+                <Typography sx={{ textAlign: "center" }}>
+                  Don't have an account?
+                </Typography>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={() => history.push("/SignUp")}
+                >
+                  Sign Up
+                </Button>
+              </Grid>
+            )}
           </Grid>
         </form>
       </div>
