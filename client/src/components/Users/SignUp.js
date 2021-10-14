@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Snackbar from "@material-ui/core/Snackbar";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const history = useHistory();
   const classes = useStyles();
   const [values, setValues] = React.useState({
     firstName: "",
@@ -51,30 +53,30 @@ export default function SignUp() {
     horizontal: "center",
   });
 
-  const { vertical, horizontal, open } = state;
+  // const { vertical, horizontal, open } = state;
 
-  const handleClick = () => () => {
-    setState({ open: true, vertical: "top", horizontal: "center" });
-  };
+  // const handleClick = () => () => {
+  //   setState({ open: true, vertical: "top", horizontal: "center" });
+  // };
 
-  const handleClose = () => {
-    setState({ ...state, open: false });
-  };
+  // const handleClose = () => {
+  //   setState({ ...state, open: false });
+  // };
 
-  const message = (
-    <>
-      <Button onClick={handleClick({ vertical: "top", horizontal: "center" })}>
-        Top-Center
-      </Button>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={open}
-        onClose={handleClose}
-        message="I love snacks"
-        key={vertical + horizontal}
-      />
-    </>
-  );
+  // const message = (
+  //   <>
+  //     <Button onClick={handleClick({ vertical: "top", horizontal: "center" })}>
+  //       Top-Center
+  //     </Button>
+  //     <Snackbar
+  //       anchorOrigin={{ vertical, horizontal }}
+  //       open={open}
+  //       onClose={handleClose}
+  //       message="I love snacks"
+  //       key={vertical + horizontal}
+  //     />
+  //   </>
+  // );
 
   const addUser = () => {
     fetch("/api/users/signup", {
@@ -84,14 +86,7 @@ export default function SignUp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
-    }).then(function (response) {
-      if (response.status !== 200) {
-        console.log(
-          "Looks like there was a problem. Status Code: " + response.status
-        );
-        handleClick({ vertical: "top", horizontal: "center" });
-      }
-    });
+    }).then(history.push("/"));
   };
 
   return (
@@ -103,7 +98,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        {message}
+
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -161,12 +156,6 @@ export default function SignUp() {
                 helperText="*Required field"
                 value={values.password}
                 onChange={handleChange("password")}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
               />
             </Grid>
           </Grid>

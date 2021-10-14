@@ -3,29 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
-// // get one user
-// app.post("/api/signIn", (req, res) => {
-//   const { email, password } = req.body;
 
-//   User.findOne({ email: email, password: password }, (err, user) => {
-//     if (user) {
-//       //Generate an access token
-//       const accessToken = generateAccessToken(user);
-//       const refreshToken = generateRefreshToken(user);
-//       refreshTokens.push(refreshToken);
-//       res.json({
-//         email: user.email,
-//         admin: user.admin,
-//         accessToken,
-//         refreshToken,
-//       });
-//     } else {
-//       return res
-//         .status(400)
-//         .json({ status: 400, message: "Email or Password is wrong" });
-//     }
-//   });
-// });
 adminTokens = [];
 refreshTokens = [];
 module.exports = {
@@ -39,7 +17,7 @@ module.exports = {
         });
       }
 
-      bcrypt.hash(password, 600, (error, hash) => {
+      bcrypt.hash(password, 10, (error, hash) => {
         if (error) {
           return res.status(500).json({
             error,
@@ -57,6 +35,8 @@ module.exports = {
         user
           .save()
           .then((result) => {
+            console.log("111", result);
+
             res.status(200).json({
               message: "User created",
             });
@@ -103,7 +83,7 @@ module.exports = {
           if (user.admin) {
             adminTokens.push(token);
           }
-
+          refreshTokens.push(token);
           return res.status(200).json({
             token,
             user: user.firstName + " " + user.lastName,

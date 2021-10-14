@@ -118,7 +118,7 @@ function NavBar() {
           user: null,
         });
         setAdmin(false);
-        return history.go("/");
+        return history.push("/");
       }
     } catch (err) {
       // throw Error(err);
